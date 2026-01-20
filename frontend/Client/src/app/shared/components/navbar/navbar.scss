@@ -1,0 +1,79 @@
+nav{
+    min-height: 48px;
+    background-color: #fff;
+    padding: 0px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #0B120E24;
+}
+
+.button{
+    appearance: none;
+    background: none;
+}
+
+.collapse{
+    width:32px;
+    height:32px;
+    padding: 6px 0;
+    border:none;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.collapse-icon{
+    width: 16px;
+    height: 16px;
+}
+
+.logo{
+    display: flex;
+    padding: 0 4px;
+    gap:4px;
+    align-items: center;
+}
+
+.jira-icon{
+    width:24px;
+    height:24px;
+}
+
+.left{
+    display: flex;
+    align-items: center;
+    gap:4px;
+}
+
+.right{
+    display: flex;
+    align-items: center;
+    gap:4px;
+}
+
+.notification{
+    width:32px;
+    height:32px;
+    padding: 6px 0;
+    border:none;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.notification-icon{
+    width: 16px;
+    height: 16px;
+}
+
+.avatar{
+    width:24px;
+    height:24px;
+    border-radius: 50%;
+    background-color:  #1868DB;
+    color:#fff;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

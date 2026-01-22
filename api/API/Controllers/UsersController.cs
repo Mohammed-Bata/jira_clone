@@ -131,7 +131,7 @@ namespace API.Controllers
 
             SetRefreshTokenInCookie(Tokens.RefreshToken);
 
-            return Redirect($"https://localhost:4200/oauth-callback#accesstoken={Tokens.AccessToken}");
+            return Redirect($"http://localhost:4200/oauth-callback#accesstoken={Tokens.AccessToken}");
         }
 
         [HttpGet("github/login")]
@@ -162,7 +162,7 @@ namespace API.Controllers
           
             SetRefreshTokenInCookie(Tokens.RefreshToken);
 
-            return Redirect($"https://localhost:4200/oauth-callback#accesstoken={Tokens.AccessToken}");
+            return Redirect($"http://localhost:4200/oauth-callback#accesstoken={Tokens.AccessToken}");
         }
 
 
@@ -198,7 +198,7 @@ namespace API.Controllers
             
             SetRefreshTokenInCookie(Tokens.RefreshToken);
 
-            return Redirect($"https://localhost:4200/oauth-callback#accesstoken={Tokens.AccessToken}");
+            return Redirect($"http://localhost:4200/oauth-callback#accesstoken={Tokens.AccessToken}");
 
         }
 

@@ -36,10 +36,10 @@ namespace Infrastructure.Configurations
                 .HasColumnType("date")
                .IsRequired(false);
 
-            builder.HasOne<BoardColumn>()        
+            builder.HasOne<ProjectColumn>()        
            .WithMany()                      
-           .HasForeignKey(w => w.BoardColumnId)
-           .OnDelete(DeleteBehavior.Cascade);
+           .HasForeignKey(w => w.ProjectColumnId)
+           .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<AppUser>()
                 .WithMany()
@@ -52,7 +52,7 @@ namespace Infrastructure.Configurations
                 .OnDelete(DeleteBehavior.SetNull);
 
 
-            builder.HasIndex(w => w.BoardColumnId);
+            builder.HasIndex(w => w.ProjectColumnId);
         }
     }
 }

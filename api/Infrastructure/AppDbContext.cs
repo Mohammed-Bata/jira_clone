@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Interfaces;
+using Domain;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +9,15 @@ using System.Text;
 
 namespace Infrastructure
 {
-    public class AppDbContext: IdentityDbContext<AppUser>
+    public class AppDbContext: IdentityDbContext<AppUser>, IAppDbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
         }
-
+        public DbSet<Project> Projects { get; set; }
         public DbSet<WorkItem> WorkItems { get; set; }
-        public DbSet<BoardColumn> BoardColumns { get; set; }
+        public DbSet<ProjectColumn> ProjectColumns { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<CommentReaction> CommentReactions { get; set; }
         public DbSet<CommentMention> CommentMentions { get; set; }

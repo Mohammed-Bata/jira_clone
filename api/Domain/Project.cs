@@ -10,6 +10,7 @@ namespace Domain
         public string Name { get; set; }
         public string Description { get; set; }
         public string OwnerId { get; set; }
+        public ICollection<ProjectColumn> Columns { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Configurations
 {
-    public class BoardColumnConfiguration : IEntityTypeConfiguration<BoardColumn>
+    public class ProjectColumnConfiguration : IEntityTypeConfiguration<ProjectColumn>
     {
-        public void Configure(EntityTypeBuilder<BoardColumn> builder)
+        public void Configure(EntityTypeBuilder<ProjectColumn> builder)
         {
             builder.HasKey(b => b.Id);
 
@@ -19,6 +19,11 @@ namespace Infrastructure.Configurations
             builder.Property(b => b.Title)
                 .IsRequired()
                 .HasMaxLength(50);
+
+            builder.HasOne(b=>b.Project)
+                .WithMany(p=>p.Columns)
+                .HasForeignKey(b => b.ProjectId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

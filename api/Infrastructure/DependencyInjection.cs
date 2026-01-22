@@ -18,6 +18,10 @@ namespace Infrastructure
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthService, AuthService>();
 
+            // Map both interfaces to the same implementation
+            services.AddScoped<IAppDbContext>(sp =>
+                sp.GetRequiredService<AppDbContext>());
+
             return services;
         }
 
@@ -28,6 +32,8 @@ namespace Infrastructure
                 .EnableSensitiveDataLogging()
                  .LogTo(Console.WriteLine, LogLevel.Information)
             );
+
+            services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
         }
     }
 }

@@ -3,6 +3,8 @@ import { Login } from './features/auth/login/login';
 import { Authcallback } from './features/auth/authcallback/authcallback';
 import { Navbar } from './shared/components/navbar/navbar';
 import { Sidebar } from './shared/components/sidebar/sidebar';
+import { Project } from './features/project/project';
+import { MainLayout } from './core/layouts/main-layout/main-layout';
 
 export const routes: Routes = [
     {
@@ -14,11 +16,13 @@ export const routes: Routes = [
         component:Authcallback
     },
     {
-        path:'nav',
-        component: Navbar
-    },
-    {
-        path:'side',
-        component: Sidebar
+        path:'',
+        component:MainLayout,
+        children:[
+            {
+                path:'project/:id',
+                component:Project
+            }
+        ]
     }
 ];

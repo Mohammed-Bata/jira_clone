@@ -15,7 +15,7 @@ import { TokenService } from '../../../core/services/tokenservice';
 export class Authcallback implements OnInit {
  
 
-  constructor(private tokenservice: TokenService
+  constructor(private router:Router ,private tokenservice: TokenService
    ){
   }
 
@@ -31,5 +31,8 @@ export class Authcallback implements OnInit {
 
     // 5. Clean URL to remove token from fragment
     window.history.replaceState({}, document.title, '/login');
+
+    this.router.navigate(['/']);
+
   }
 }

@@ -6,5 +6,10 @@ export const API_ENDPOINTS = {
     REFRESH: '/Users/refresh',
     LOGOUT: '/Users/logout',
     GOOGLELOGIN: '/Users/google/login'
+  },
+  PROJECT: {
+    CREATE: '/Projects/create',
+    GETALL:'/Projects/all',
+    GETPROJECT:'/Projects'
   }
 };

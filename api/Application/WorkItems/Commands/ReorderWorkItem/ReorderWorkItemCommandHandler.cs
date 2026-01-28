@@ -23,8 +23,15 @@ namespace Application.WorkItems.Commands.ReorderWorkItem
                 throw new Exception("Work item not found");
             }
 
+            workItem.ProjectColumnId = request.ColumnId;
+
             double newOrder;
-            if (request.PrevOrder == null)
+
+            if(request.PrevOrder == null && request.NextOrder == null)
+            {
+                newOrder = 100.0;
+            }
+            else if (request.PrevOrder == null)
             {
                 newOrder = (request.NextOrder ?? 100) / 2.0;
             }else if(request.NextOrder == null)

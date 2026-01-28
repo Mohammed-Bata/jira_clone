@@ -5,12 +5,12 @@ import { ProjectColumnDto, ProjectDto } from '../../core/models/Project';
 import { Workitem } from './workitem/workitem';
 import { Column } from './column/column';
 import { Createcolumn } from './createcolumn/createcolumn';
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ColumnService } from '../../core/services/columnservice';
 
 @Component({
   selector: 'app-project',
-  imports: [Column,Createcolumn,CdkDrag,CdkDropList],
+  imports: [Column,Createcolumn,CdkDrag,CdkDropList,DragDropModule],
   templateUrl: './project.html',
   styleUrl: './project.scss',
 })
@@ -39,8 +39,11 @@ export class Project implements OnInit {
     this.create = false;
   }
 
+  get allColumnIds(): string[] {
+  return this.project()?.columns.map(col => 'list-' + col.id) || [];
+}
   
-  drop(event:CdkDragDrop<ProjectColumnDto[]>){
+  onColumnDropped(event:CdkDragDrop<ProjectColumnDto[]>){
     moveItemInArray(this.project()!.columns, event.previousIndex, event.currentIndex);
 
 

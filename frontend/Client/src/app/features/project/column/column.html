@@ -5,11 +5,11 @@
     </div>
     
     
-    <div class="workitems" cdkDropList [cdkDropListData]="column.workItems" (cdkDropListDropped)="drop($event)">
+    <div class="workitems" cdkDropList [id]="'list-' + column.id" [cdkDropListConnectedTo]="connectedTo" [cdkDropListData]="column.workItems" (cdkDropListDropped)="onWorkItemReorder($event)">
         @if(column.workItems){
                             
             @for(item of column.workItems;track item.id){
-                <div class="workitem" cdkDrag>
+                <div class="workitem" cdkDrag [cdkDragData]="item">
                     <div class="head">
                         <div class="title">
                             {{item.title}}

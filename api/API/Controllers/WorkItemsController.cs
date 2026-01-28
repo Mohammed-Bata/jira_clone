@@ -32,7 +32,7 @@ namespace API.Controllers
         [HttpPatch("reorder")]
         public async Task<ActionResult> ReorderWorkItems(ReorderWorkItemsDto dto)
         {
-            var command = new ReorderWorkItemCommand(dto.WorkItemId, dto.PrevOrder, dto.NextOrder);
+            var command = new ReorderWorkItemCommand(dto.WorkItemId, dto.ColumnId,dto.PrevOrder, dto.NextOrder);
 
             var newOrder = await _mediator.Send(command);
 

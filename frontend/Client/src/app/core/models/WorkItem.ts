@@ -12,6 +12,7 @@ export interface CreateWorkItemDto{
 
 export interface ReorderWorkItemDto{
     workItemId: number;
+    columnid: number;
     PrevOrder: number|null;
     NextOrder: number|null;
 }

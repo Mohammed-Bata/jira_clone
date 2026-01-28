@@ -207,8 +207,8 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
+                    b.Property<double>("Order")
+                        .HasColumnType("float");
 
                     b.Property<int>("ProjectId")
                         .HasColumnType("int");
@@ -296,8 +296,8 @@ namespace Infrastructure.Migrations
                     b.Property<DateOnly?>("DueDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("Order")
-                        .HasColumnType("int");
+                    b.Property<double>("Order")
+                        .HasColumnType("float");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");

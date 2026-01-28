@@ -6,7 +6,7 @@ namespace Domain
         public int Id { get; set; }
         public string Title { get; set; }
         public string? Description { get; set; }
-        public int Order { get; set; }
+        public double Order { get; set; }
         public int ProjectColumnId { get; set; }
         public string? AssignedToUserId { get; set; }
         public string AuthorUserId { get; set; }

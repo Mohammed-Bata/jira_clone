@@ -51,7 +51,10 @@ namespace Application.Projects.Queries.GetProject
                       project.Columns.Add(column);
                   }
 
-                  column.WorkItems.Add(i);
+                  if (i != null && i.Id != 0)
+                  {
+                      column.WorkItems.Add(i);
+                  }
 
                   return project;
               },

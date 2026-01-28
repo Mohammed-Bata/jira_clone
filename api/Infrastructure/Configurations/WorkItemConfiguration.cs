@@ -22,6 +22,7 @@ namespace Infrastructure.Configurations
                 .HasMaxLength(1000);
 
             builder.Property(w => w.Order)
+                .HasColumnType("float")
                 .IsRequired();
 
             builder.Property(w => w.Priority)

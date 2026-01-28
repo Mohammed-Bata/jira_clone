@@ -1,0 +1,47 @@
+
+<div class="column">
+    <div class="header">
+        {{column.title}}
+    </div>
+    
+    
+    <div class="workitems" cdkDropList [cdkDropListData]="column.workItems" (cdkDropListDropped)="drop($event)">
+        @if(column.workItems){
+                            
+            @for(item of column.workItems;track item.id){
+                <div class="workitem" cdkDrag>
+                    <div class="head">
+                        <div class="title">
+                            {{item.title}}
+                        </div>
+                        <button (click)="openOptions(item.id)">
+                            <svg fill="none" viewBox="0 0 16 16" role="presentation" class="dots"><path fill="currentcolor" fill-rule="evenodd" d="M0 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0m6.5 0a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0M13 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0" clip-rule="evenodd"></path></svg>
+                        </button>
+                        <div class="options">
+                            @if(openMenuWorkItemId === item.id){
+                                <ul>
+                                    <li (click)="deleteWorkItem(item.id)">Delete</li>
+                                </ul>
+                            }
+                        </div>
+                    </div>
+                </div> 
+            }
+        }
+
+            @if(!create){
+        <button class="create" (click)="opencreate()" >
+            <svg fill="none" viewBox="0 0 16 16" role="presentation" class="plus"><path fill="currentcolor" fill-rule="evenodd" d="M7.25 8.75V15h1.5V8.75H15v-1.5H8.75V1h-1.5v6.25H1v1.5z" clip-rule="evenodd"></path></svg>
+            Create
+        </button>
+        }
+  
+    </div>
+    
+        @if(create){
+            <app-workitem [columnId]="column.id" (createdworkitem)="onWorkItemCreated($event)">
+
+            </app-workitem>
+        }
+</div>
+              

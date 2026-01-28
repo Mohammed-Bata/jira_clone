@@ -1,3 +1,5 @@
+import { DELETE, R } from "@angular/cdk/keycodes";
+
 export const API_ENDPOINTS = {
   AUTH: {
     ME: '/Users/me',
@@ -11,5 +13,14 @@ export const API_ENDPOINTS = {
     CREATE: '/Projects/create',
     GETALL:'/Projects/all',
     GETPROJECT:'/Projects'
+  },
+  WORKITEMS : {
+    CREATE: '/WorkItems/create',
+    DELETE: '/WorkItems',
+    REORDER: '/WorkItems/reorder'
+  },
+  Column:{
+    CREATE: '/Columns/create',
+    REORDER: '/Columns/reorder'
   }
 };

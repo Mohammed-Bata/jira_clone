@@ -1,12 +1,16 @@
 
-<app-navbar></app-navbar>
+<div class="main">
 
-
-<div>
-
-    <app-sidebar></app-sidebar> 
-
-    <router-outlet></router-outlet>
+    <app-navbar></app-navbar>
+    
+    <div class="body">
+        @if(Authready){
+            <app-sidebar></app-sidebar> 
+        }
+        <div class="project">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
     
 </div>
 

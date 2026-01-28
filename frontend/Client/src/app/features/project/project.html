@@ -2,9 +2,31 @@
 @if(loading()){
     <h3>loading project</h3>
 }@else{
-    <h3>
-        {{project()?.name}}
-    </h3>
+   <div class="project">
+
+       <h3>
+           {{project()?.id}}-{{project()?.name}}
+        </h3>
+        
+       
+            <div class="columns-wrapper">
+                <section class="columns" cdkDropList [cdkDropListData]="project()!.columns" cdkDropListOrientation="horizontal" (cdkDropListDropped)="drop($event)">
+                    @for(column of project()!.columns; track column.id){
+                        <app-column [column]="column" cdkDrag></app-column>
+                    }
+                    @if(!create){
+                     <button class="create" (click)="opencreate()">
+                        <svg fill="none" viewBox="0 0 16 16" role="presentation" class="plus"><path fill="currentcolor" fill-rule="evenodd" d="M7.25 8.75V15h1.5V8.75H15v-1.5H8.75V1h-1.5v6.25H1v1.5z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    }@else{
+                        <app-createcolumn [projectId]="project()!.id" (columncreated)="onColumnCreated($event)"></app-createcolumn>
+                    }
+                </section>
+               
+            </div>
+           
+            
+    </div>
 }
 
 

@@ -18,7 +18,7 @@ namespace Application.Users.Commands.Refresh
 
         public async Task<Tokens> Handle(RefreshTokensCommand request, CancellationToken cancellationtoken)
         {
-            var tokens = await _tokenService.RefreshAccessToken(request.tokens.RefreshToken);
+            var tokens = await _tokenService.RefreshAccessToken(request.RefreshToken);
 
             if (tokens == null || string.IsNullOrEmpty(tokens.AccessToken))
             {

@@ -10,6 +10,7 @@ namespace Application.Interfaces
     {
         public DbSet<Project> Projects { get; }
         public DbSet<ProjectColumn> ProjectColumns { get; }
+        public DbSet<WorkItem> WorkItems { get; }
 
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

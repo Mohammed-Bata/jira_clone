@@ -1,0 +1,12 @@
+
+    <form (ngSubmit)="createworkitem()" #f="ngForm">
+        <textarea name="title"
+        [(ngModel)]="title"
+        required
+        placeholder="what needs to be done?"></textarea>
+
+        <div>
+            <button type="submit">create</button>
+        </div>
+    </form>
+

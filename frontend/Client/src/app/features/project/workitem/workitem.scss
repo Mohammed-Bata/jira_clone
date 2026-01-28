@@ -1,0 +1,21 @@
+:host {
+    width:260px;
+    height:100px;
+    background-color: #fff;
+    padding: 12px;
+    margin-top: 3px;
+    border: 2px solid #1868DB;
+}
+
+textarea{
+    height: 48px;
+    border: none;
+    outline: none;
+    background: transparent;
+    resize: none;
+}
+
+div{
+    height:28px;
+    display: flex;
+}

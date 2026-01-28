@@ -85,17 +85,26 @@ namespace API.Controllers
         }
 
         [HttpPost("refresh")]
-        public async Task<ActionResult<Tokens>> GetNewTokenFromRefreshToken([FromBody] Tokens model)
+        public async Task<ActionResult<string>> GetNewTokenFromRefreshToken()
         {
-            var command = new RefreshTokensCommand(model);
+            var refreshToken = Request.Cookies["refreshToken"];
+
+            var command = new RefreshTokensCommand(refreshToken);
             var tokens = await _mediator.Send(command);
-            return tokens;
+
+            SetRefreshTokenInCookie(tokens.RefreshToken);
+
+            return Ok(new
+            {
+                accessToken = tokens.AccessToken
+            });
         }
 
         [HttpPost("logout")]
-        public async Task<ActionResult<bool>> Logout([FromBody] Tokens model)
+        public async Task<ActionResult<bool>> Logout()
         {
-            var command = new LogoutCommand(model);
+            var refreshToken = Request.Cookies["refreshToken"];
+            var command = new LogoutCommand(refreshToken);
 
             var result = await _mediator.Send(command);
 

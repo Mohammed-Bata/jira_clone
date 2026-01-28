@@ -17,6 +17,9 @@ export class ProjectService{
   private _project = signal<ProjectDto | null>(null);
   project = this._project.asReadonly();
 
+  private _loading = signal(true);
+  loading = this._loading.asReadonly();
+
 
     private readonly apiUrl = environment.apiUrl;
 
@@ -29,6 +32,7 @@ export class ProjectService{
       .subscribe({
         next:response =>{this._project.set(response);
           console.log(response);
+          this._loading.set(false);
         },
         error: err => console.error(err)
       })

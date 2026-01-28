@@ -17,7 +17,7 @@ namespace Application.Users.Commands.Logout
 
         public async Task<bool> Handle(LogoutCommand request, CancellationToken cancellationtoken)
         {
-            await _tokenService.RevokeRefreshToken(request.tokens.RefreshToken);
+            await _tokenService.RevokeRefreshToken(request.RefreshToken);
             return true;
         }
 

@@ -4,11 +4,14 @@ import { HttpInterceptorFn } from "@angular/common/http";
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
  const tokenService = inject(TokenService);
-  const accessToken = tokenService.getToken();
-
-  
 
 
+  if (req.url.includes('/Users/Login') || req.url.includes('/Users/Register') || req.url.includes('/Users/Refresh')) {
+    return next(req);
+  }
+
+
+    const accessToken = tokenService.getToken();
  
     const clonedRequest = addTokenToRequest(req, accessToken!);
 

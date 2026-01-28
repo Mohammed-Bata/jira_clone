@@ -6,5 +6,5 @@ using System.Text;
 
 namespace Application.Users.Commands.Refresh
 {
-    public record RefreshTokensCommand(Tokens tokens) : IRequest<Tokens>;
+    public record RefreshTokensCommand(string RefreshToken) : IRequest<Tokens>;
 }

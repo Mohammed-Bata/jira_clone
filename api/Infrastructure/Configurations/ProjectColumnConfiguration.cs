@@ -14,6 +14,7 @@ namespace Infrastructure.Configurations
                 .UseIdentityColumn();
 
             builder.Property(b => b.Order)
+                .HasColumnType("float")
                 .IsRequired();
 
             builder.Property(b => b.Title)

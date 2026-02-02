@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment.development";
 import { HttpClient } from "@angular/common/http";
-import { catchError, Observable, tap, throwError } from "rxjs";
+import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
 import { TokenService } from "./tokenservice";
 import { TokenResponse } from "../models/Auth";
@@ -22,7 +22,18 @@ export class AuthService{
 
     private readonly apiUrl = environment.apiUrl;
 
+    private isAuthenticatedSubject = new BehaviorSubject<boolean | null>(null);
+    public isAuthenticated$: Observable<boolean | null> = this.isAuthenticatedSubject.asObservable();
+
     constructor(private http:HttpClient,private tokenservice:TokenService,private router:Router){}
+
+    get isAuthenticated(): boolean | null {
+    return this.isAuthenticatedSubject.value;
+    }
+
+    setAuthenticated(value: boolean): void {
+      this.isAuthenticatedSubject.next(value);
+    }
 
     refresh(): Observable<TokenResponse> {
     return this.http
@@ -68,8 +79,14 @@ export class AuthService{
   }
 
     // Google OAuth login - redirect to backend
-    loginWithGoogle() {
-        window.location.href = `${this.apiUrl}/Users/google/login`;
+    loginWithGoogle(returnUrl:string|null) {
+
+      if(returnUrl !== null){
+        localStorage.setItem('returnUrl',returnUrl);
+        console.log("authserviceloginbygoogle",localStorage.getItem('returnUrl'));
+      }
+
+      window.location.href = `${this.apiUrl}/Users/google/login`;
     }
 
 

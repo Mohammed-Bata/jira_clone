@@ -21,6 +21,11 @@ export const API_ENDPOINTS = {
   },
   Column:{
     CREATE: '/Columns/create',
-    REORDER: '/Columns/reorder'
+    REORDER: '/Columns/reorder',
+    DELETE: '/Columns'
+  },
+  TeamMembers:{
+    INVITE: '/TeamMembers/invite',
+    ACCEPT: '/TeamMembers/accept'
   }
 };

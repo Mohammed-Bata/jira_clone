@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ProjectColumnDto, WorkItemDto } from '../../../core/models/Project';
 import { Workitem } from '../workitem/workitem';
 import { workitemservice } from '../../../core/services/workitemservice';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { ColumnService } from '../../../core/services/columnservice';
 
 @Component({
   selector: 'app-column',
@@ -13,10 +14,12 @@ import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule, mo
 export class Column {
   @Input() column! :ProjectColumnDto;
   @Input() connectedTo: string[] = [];
+  @Output() columnDeleted = new EventEmitter<number>();
   create : boolean = false;
   openMenuWorkItemId: number | null = null;
+  openMenuColumnId:number | null = null;
 
-  constructor(private workitemService: workitemservice){}
+  constructor(private workitemService: workitemservice,private columnService: ColumnService){}
 
   opencreate(){
     this.create = !this.create;
@@ -30,6 +33,20 @@ export class Column {
   openOptions(id:number){
     this.openMenuWorkItemId =
     this.openMenuWorkItemId === id ? null : id;
+  }
+
+  openColumnOptions(id:number){
+    this.openMenuColumnId =
+    this.openMenuColumnId === id ? null : id;
+  }
+
+  deleteColumn(columnId:number){
+    this.columnService.deleteColumn(columnId).subscribe({
+      next:()=>{
+        this.columnDeleted.emit(columnId);
+      },
+      error:(error)=>console.log(error)
+    });
   }
 
   deleteWorkItem(id:number){

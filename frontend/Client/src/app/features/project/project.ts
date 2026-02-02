@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, Signal } from '@angular/core';
+import { Component, OnInit, signal, Signal, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../core/services/projectservice';
 import { ProjectColumnDto, ProjectDto } from '../../core/models/Project';
@@ -7,19 +7,23 @@ import { Column } from './column/column';
 import { Createcolumn } from './createcolumn/createcolumn';
 import { CdkDrag, CdkDragDrop, CdkDropList, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ColumnService } from '../../core/services/columnservice';
+import { CdkPortal, PortalModule } from '@angular/cdk/portal';
+import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
+import { Invitation } from './invitation/invitation';
 
 @Component({
   selector: 'app-project',
-  imports: [Column,Createcolumn,CdkDrag,CdkDropList,DragDropModule],
+  imports: [Column,Createcolumn,CdkDrag,CdkDropList,DragDropModule,PortalModule,Invitation],
   templateUrl: './project.html',
   styleUrl: './project.scss',
 })
 export class Project implements OnInit {
   project:Signal<ProjectDto | null>;
   loading:Signal<boolean>;
+  @ViewChild(CdkPortal) portal!: CdkPortal;
   create : boolean = false;
 
-  constructor(private route:ActivatedRoute,private projectservice:ProjectService,private columnService:ColumnService){
+  constructor(private route:ActivatedRoute,private projectservice:ProjectService,private columnService:ColumnService,private overlay : Overlay){
     this.project = this.projectservice.project;
     this.loading = this.projectservice.loading;
   }
@@ -39,9 +43,26 @@ export class Project implements OnInit {
     this.create = false;
   }
 
+  openModel(){
+    const config = new OverlayConfig({
+      positionStrategy : this.overlay.position().global().centerHorizontally().centerVertically(),
+       width:'30%',
+       height:'80%',
+      hasBackdrop: true
+    });
+
+    const overlayRef = this.overlay.create(config);
+    overlayRef.attach(this.portal);
+    overlayRef.backdropClick().subscribe(()=> overlayRef.detach());
+  }
+
   get allColumnIds(): string[] {
   return this.project()?.columns.map(col => 'list-' + col.id) || [];
 }
+
+handlecolumndelete(columnId:number){
+    this.project()!.columns = this.project()!.columns.filter(col => col.id !== columnId);
+  }
   
   onColumnDropped(event:CdkDragDrop<ProjectColumnDto[]>){
     moveItemInArray(this.project()!.columns, event.previousIndex, event.currentIndex);

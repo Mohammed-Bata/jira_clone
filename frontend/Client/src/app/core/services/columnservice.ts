@@ -18,6 +18,13 @@ export class ColumnService {
 
     }
 
+    deleteColumn(id:number):Observable<void|any>{
+      return this.http.delete<void>(`${this.apiUrl}${API_ENDPOINTS.Column.DELETE}/${id}`)
+      .pipe(
+        tap((response)=>console.log(response))
+      );
+    }
+
     createColumn(dto:CreateColumnDto):Observable<ProjectColumnDto|any>{
         return this.http.post<ProjectColumnDto>(`${this.apiUrl}${API_ENDPOINTS.Column.CREATE}`,dto)
         .pipe(

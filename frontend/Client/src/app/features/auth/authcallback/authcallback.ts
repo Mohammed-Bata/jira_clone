@@ -5,6 +5,7 @@ import { User } from '../../../core/models/User';
 import { Router } from '@angular/router';
 import { environment } from '../../../../environments/environment.development';
 import { TokenService } from '../../../core/services/tokenservice';
+import { AuthService } from '../../../core/services/authservice';
 
 @Component({
   selector: 'app-authcallback',
@@ -15,7 +16,7 @@ import { TokenService } from '../../../core/services/tokenservice';
 export class Authcallback implements OnInit {
  
 
-  constructor(private router:Router ,private tokenservice: TokenService
+  constructor(private router:Router ,private tokenservice: TokenService,private authservice:AuthService
    ){
   }
 
@@ -26,13 +27,26 @@ export class Authcallback implements OnInit {
   
     if (token) {
       this.tokenservice.setToken(token);
+      this.authservice.setAuthenticated(true);
+
       console.log('token found');
     }
 
     // 5. Clean URL to remove token from fragment
     window.history.replaceState({}, document.title, '/login');
 
+  const destination = localStorage.getItem('returnUrl') || null;
+
+  console.log("oauthcallback",localStorage.getItem('returnUrl'));
+
+  if(destination !== null){
+
+    localStorage.removeItem('returnUrl'); 
+    this.router.navigateByUrl(destination);
+  }else{
     this.router.navigate(['/']);
+  }
+
 
   }
 }

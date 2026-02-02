@@ -11,6 +11,9 @@ namespace Application.Interfaces
         public DbSet<Project> Projects { get; }
         public DbSet<ProjectColumn> ProjectColumns { get; }
         public DbSet<WorkItem> WorkItems { get; }
+        public DbSet<Invitation> Invitations { get; }
+        public DbSet<ProjectMember> ProjectMembers { get;}
+
 
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

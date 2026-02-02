@@ -5,6 +5,7 @@ import { Navbar } from './shared/components/navbar/navbar';
 import { Sidebar } from './shared/components/sidebar/sidebar';
 import { Project } from './features/project/project';
 import { MainLayout } from './core/layouts/main-layout/main-layout';
+import { AcceptInvite } from './features/accept-invite/accept-invite';
 
 export const routes: Routes = [
     {
@@ -24,5 +25,9 @@ export const routes: Routes = [
                 component:Project
             }
         ]
+    },
+    {
+        path:'accept',
+        component:AcceptInvite
     }
 ];

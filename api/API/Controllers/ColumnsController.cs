@@ -1,4 +1,5 @@
 ﻿using Application.Columns.Commands.CreateColumn;
+using Application.Columns.Commands.DeleteColumn;
 using Application.Columns.Commands.ReorderColumn;
 using Application.DTOs;
 using MediatR;
@@ -16,6 +17,17 @@ namespace API.Controllers
         public ColumnsController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteColumn(int id)
+        {
+            var command = new DeleteColumnCommand(id);
+
+            await _mediator.Send(command);
+
+            return NoContent();
         }
 
         [HttpPost("create")]

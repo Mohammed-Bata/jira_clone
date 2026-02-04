@@ -19,6 +19,10 @@ namespace Infrastructure.Configurations
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasOne<AppUser>()
+                .WithMany()
+                .HasForeignKey(n => n.ActorId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Property(n => n.Message)
                 .IsRequired()
@@ -30,6 +34,9 @@ namespace Infrastructure.Configurations
 
             builder.Property(n => n.IsRead)
                 .HasDefaultValue(false);
+
+            builder.HasIndex(n => n.UserId);
+            builder.HasIndex(n => n.IsRead);
 
         }
     }

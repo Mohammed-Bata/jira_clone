@@ -49,9 +49,10 @@ nav{
     display: flex;
     align-items: center;
     gap:4px;
+    position: relative;
 }
 
-.notification{
+.notification-btn{
     width:32px;
     height:32px;
     padding: 6px 0;
@@ -60,9 +61,46 @@ nav{
     background-color: #fff;
 }
 
+.notification-btn.clicked{
+    color:#1868DB;
+    background-color: #E9F2FE;
+    transition: background .1s ease-out;
+    border-radius: 3px;
+    border:1px solid #1868DB;
+}
+
+.menu{
+    position: absolute;
+    top:40px;
+    z-index: 100;
+    width:540px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    right:28px;
+    background-color: #fff;
+}
+
+.menu .top{
+    height:32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 24px 16px 16px 24px;
+
+}
+
+.menu .top .address{
+    font-size:24px;
+    color: #292A2E;
+    font-weight: bold;
+}
+
 .notification-icon{
     width: 16px;
     height: 16px;
+}
+
+.notifications{
+    margin: 0px 24px;
 }
 
 .avatar{

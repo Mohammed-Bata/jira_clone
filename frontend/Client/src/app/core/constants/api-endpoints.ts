@@ -27,5 +27,10 @@ export const API_ENDPOINTS = {
   TeamMembers:{
     INVITE: '/TeamMembers/invite',
     ACCEPT: '/TeamMembers/accept'
+  },
+  Notification:{
+    UNREADCOUNT:'/Notifications/unread',
+    MARKALLREAD:'/Notifications/markallread',
+    GETALL:'/Notifications/all'
   }
 };

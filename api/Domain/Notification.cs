@@ -5,8 +5,9 @@ namespace Domain
     {
         public int Id { get; set; }
         public string UserId { get; set; }
+        public string? ActorId { get; set; }
         public string Message { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
-        public bool IsRead { get; set; }
+        public bool IsRead { get; set; } = false;
     }
 }

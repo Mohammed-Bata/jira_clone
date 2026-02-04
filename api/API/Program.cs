@@ -1,10 +1,10 @@
 using Application;
 using Azure.Core;
 using Infrastructure;
+using Infrastructure.Hubs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.Text;
@@ -19,6 +19,7 @@ builder.Services.AddControllers();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
+builder.Services.AddSignalR();
 
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
@@ -48,6 +49,27 @@ builder.Services.AddAuthentication(options =>
         ValidAudience = "Client",
         ClockSkew = TimeSpan.Zero,
     };
+
+    // IMPORTANT: Configure JWT for SignalR
+
+    x.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrEmpty(accessToken) &&
+                path.StartsWithSegments("/notifications"))
+            {
+                context.Token = accessToken;
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+
+
 }).AddCookie("External")
 .AddGoogle("Google",options =>
 {
@@ -111,5 +133,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<NotificationHub>("/notifications");
 
 app.Run();

@@ -10,6 +10,8 @@ import { ColumnService } from '../../core/services/columnservice';
 import { CdkPortal, PortalModule } from '@angular/cdk/portal';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Invitation } from './invitation/invitation';
+import { switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-project',
@@ -17,7 +19,9 @@ import { Invitation } from './invitation/invitation';
   templateUrl: './project.html',
   styleUrl: './project.scss',
 })
-export class Project implements OnInit {
+export class Project 
+//implements OnInit 
+{
   project:Signal<ProjectDto | null>;
   loading:Signal<boolean>;
   @ViewChild(CdkPortal) portal!: CdkPortal;
@@ -26,13 +30,24 @@ export class Project implements OnInit {
   constructor(private route:ActivatedRoute,private projectservice:ProjectService,private columnService:ColumnService,private overlay : Overlay){
     this.project = this.projectservice.project;
     this.loading = this.projectservice.loading;
+
+    this.route.paramMap.pipe(
+      switchMap(params => {
+        const id = Number(params.get('id'));
+        
+        // Reset the UI to "Loading" state immediately when switching
+        // by calling a clear or just waiting for the next 'tap'
+        return this.projectservice.getProject(id);
+      }),
+      takeUntilDestroyed() // Auto-unsubscribe when component is destroyed
+    ).subscribe();
   }
 
   
-  ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.projectservice.getProject(id);
-  }
+  // ngOnInit() {
+  //   const id = Number(this.route.snapshot.paramMap.get('id'));
+  //   this.projectservice.getProject(id);
+  // }
 
   opencreate(){
     this.create = !this.create;

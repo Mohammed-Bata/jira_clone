@@ -12,5 +12,8 @@ namespace Domain
         public string OwnerId { get; set; }
         public ICollection<ProjectColumn> Columns { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
+
+        // Navigation Property
+        public ICollection<ProjectMember> Members { get; set; } = new List<ProjectMember>();
     }
 }

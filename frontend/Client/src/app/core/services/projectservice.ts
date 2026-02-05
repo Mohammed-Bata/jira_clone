@@ -27,15 +27,19 @@ export class ProjectService{
 
     }
 
-    getProject(id:number):void{
-      this.http.get<ProjectDto>(`${this.apiUrl}${API_ENDPOINTS.PROJECT.GETPROJECT}/${id}`)
-      .subscribe({
-        next:response =>{this._project.set(response);
+    getProject(id:number):Observable<ProjectDto | any>{
+      return this.http.get<ProjectDto>(`${this.apiUrl}${API_ENDPOINTS.PROJECT.GETPROJECT}/${id}`)
+      .pipe(
+        tap((response) => {
+          this._project.set(response);
           console.log(response);
           this._loading.set(false);
-        },
-        error: err => console.error(err)
-      })
+        }),
+        catchError((error) => {
+          this._loading.set(false);
+          return throwError(() => error);
+        })
+      );
     }
 
     getProjects():Observable<GetProjectsDto[]|any>{

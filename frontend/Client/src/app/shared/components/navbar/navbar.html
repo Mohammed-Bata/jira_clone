@@ -38,9 +38,20 @@
                 </div>
             }
         }
-        <div class="avatar">
+        <div class="avatar" (click)="toggleAvatar()">
             MA
         </div>
+        @if(isAvatarClicked){
+            @if(isAuthenticated$ | async){
+            <div class="avatar-menu">
+                <button (click)="logout()">Logout</button>
+            </div>
+            }@else{
+                <div class="avatar-menu">
+                    <a routerLink="/login">Login</a>
+                </div>
+            }
+        }
     </div>
 </nav>
 

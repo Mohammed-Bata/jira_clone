@@ -11,19 +11,7 @@ import { AuthService } from '../../services/authservice';
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.scss',
 })
-export class MainLayout implements OnInit {
-
-  Authready = false;
-
-  constructor(private authservice:AuthService){}
+export class MainLayout
+{
   
-    ngOnInit(){
-      this.authservice.refresh().subscribe({
-        next:() => {
-          console.log("refresh page");
-          this.Authready = true;
-        },
-        error:() => console.log("not logged in")
-      })
-    }
 }

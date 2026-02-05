@@ -33,6 +33,7 @@ namespace Application.TeamMembers.Commands.AcceptInvite
                 Role = ProjectRole.Member
             };
             _context.ProjectMembers.Add(member);
+            invite.IsAccepted = true;
 
             await _context.SaveChangesAsync();
 

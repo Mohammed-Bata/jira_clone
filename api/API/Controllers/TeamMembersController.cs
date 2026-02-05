@@ -37,7 +37,7 @@ namespace API.Controllers
 
             var command = new AcceptInviteCommand(dto.token, userId);
 
-            var result = _mediator.Send(command);
+            var result = await _mediator.Send(command);
 
             return Ok(new { message = "Welcome to the team!" });
 

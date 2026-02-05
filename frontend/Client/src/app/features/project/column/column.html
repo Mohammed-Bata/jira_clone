@@ -1,5 +1,5 @@
 
-<div class="column">
+<div class="column" cdkDropList [id]="'list-' + column.id" [cdkDropListConnectedTo]="connectedTo" [cdkDropListData]="column.workItems" (cdkDropListDropped)="onWorkItemReorder($event)">
     <div class="header">
         <div class="title">
 
@@ -25,7 +25,7 @@
     </div>
     
     
-    <div class="workitems" cdkDropList [id]="'list-' + column.id" [cdkDropListConnectedTo]="connectedTo" [cdkDropListData]="column.workItems" (cdkDropListDropped)="onWorkItemReorder($event)">
+    <div class="workitems" >
         @if(column.workItems){
                             
             @for(item of column.workItems;track item.id){

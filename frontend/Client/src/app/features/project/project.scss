@@ -21,10 +21,11 @@
 }
 
 .columns-wrapper{
-    width: 100%;
+    
     overflow-y: auto;   
     scroll-behavior: smooth;
     height:calc(100vh - 120px);
+    overflow-x: auto;
 }
 
 .project{

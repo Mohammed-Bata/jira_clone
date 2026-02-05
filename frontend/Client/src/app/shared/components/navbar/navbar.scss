@@ -79,6 +79,17 @@ nav{
     background-color: #fff;
 }
 
+.avatar-menu{
+    width:406px;
+    color:#fff;
+    font-weight: bold;
+    position: absolute;
+    top:40px;
+    right:-8px;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
 .menu .top{
     height:32px;
     display: flex;

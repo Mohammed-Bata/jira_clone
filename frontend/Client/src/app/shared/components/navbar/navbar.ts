@@ -14,6 +14,7 @@ export class Navbar {
   
   isAuthenticated$!: Observable<boolean | null>;
   isClicked = false;
+  isAvatarClicked = false;
 
   constructor(private authservice:AuthService,public notificationservice:NotificationsService){
     this.isAuthenticated$ = this.authservice.isAuthenticated$;
@@ -25,6 +26,14 @@ export class Navbar {
     if(this.isClicked){
       this.notificationservice.loadNotifications();
     }
+  }
+
+  toggleAvatar(){
+    this.isAvatarClicked = !this.isAvatarClicked;
+  }
+
+  logout(){
+    this.authservice.logout();
   }
   
 }

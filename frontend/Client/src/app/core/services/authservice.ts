@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment.development";
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
+import { BehaviorSubject, catchError, Observable, of, tap, throwError } from "rxjs";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
 import { TokenService } from "./tokenservice";
 import { TokenResponse } from "../models/Auth";
 import { Router } from "@angular/router";
+import { NotificationsService } from "./notificationsservice";
 
 
 
@@ -25,7 +26,7 @@ export class AuthService{
     private isAuthenticatedSubject = new BehaviorSubject<boolean | null>(null);
     public isAuthenticated$: Observable<boolean | null> = this.isAuthenticatedSubject.asObservable();
 
-    constructor(private http:HttpClient,private tokenservice:TokenService,private router:Router){}
+    constructor(private http:HttpClient,private tokenservice:TokenService,private notificationservice:NotificationsService,private router:Router){}
 
     get isAuthenticated(): boolean | null {
     return this.isAuthenticatedSubject.value;
@@ -35,9 +36,9 @@ export class AuthService{
       this.isAuthenticatedSubject.next(value);
     }
 
-    refresh(): Observable<TokenResponse> {
+    refresh(): Observable<TokenResponse|any> {
     return this.http
-      .post<TokenResponse>(
+      .post<TokenResponse|any>(
         `${this.apiUrl}${API_ENDPOINTS.AUTH.REFRESH}`,
         {},
         {
@@ -45,13 +46,19 @@ export class AuthService{
         }
       )
       .pipe(
-        tap((response) => this.tokenservice.setToken(response.accessToken),),
-         catchError((error) => {
+        tap((response) => {
+          this.tokenservice.setToken(response.accessToken);
+          this.isAuthenticatedSubject.next(true);
+          //start signalR 
+          this.notificationservice.startConnection(response.accessToken);
+          this.notificationservice.loadNotifications();
+        }),
+        catchError((error) => {
+
         // 🔥 refresh failed → auth is invalid
-       this.logout();
-
-        return throwError(() => error);
-
+        this.isAuthenticatedSubject.next(false);
+        this.tokenservice.clearToken();
+        return of(null);
       }));
 
   }
@@ -69,6 +76,7 @@ export class AuthService{
       .subscribe({
         next: () => {
           this.tokenservice.clearToken();
+          this.isAuthenticatedSubject.next(false);
           console.log('✅ Logout successful');
         },
         error: (error) => {

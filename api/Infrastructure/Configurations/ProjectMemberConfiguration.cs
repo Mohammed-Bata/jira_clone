@@ -12,8 +12,8 @@ namespace Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<ProjectMember> builder)
         {
             builder.HasKey(pm => new { pm.ProjectId, pm.UserId });
-            builder.HasOne<Project>()
-                .WithMany()
+            builder.HasOne(pm=>pm.Project)
+                .WithMany(p=>p.Members)
                 .HasForeignKey(pm => pm.ProjectId)
                 .IsRequired();
             builder.HasOne<AppUser>()
@@ -24,6 +24,7 @@ namespace Infrastructure.Configurations
             builder.Property(pm => pm.Role)
                 .HasConversion<int>()
                 .IsRequired();
+            
         }
     }
 }

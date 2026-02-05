@@ -22,7 +22,7 @@ namespace Application.Users.Commands.Refresh
 
             if (tokens == null || string.IsNullOrEmpty(tokens.AccessToken))
             {
-                throw new Exception("invalid tokens");
+                return null;
             }
 
             return tokens;

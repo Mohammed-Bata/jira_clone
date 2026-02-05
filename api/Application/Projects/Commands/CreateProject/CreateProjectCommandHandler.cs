@@ -40,8 +40,18 @@ namespace Application.Projects.Commands.CreateProject
                         Order = 3,
                         Title = "Done"
                     },
+                },
+                Members = new List<ProjectMember>
+                {
+                    new ProjectMember
+                    {
+                        UserId = request.OwnerId,
+                        Role = ProjectRole.Owner
+                    }
                 }
             };
+
+
 
             _context.Projects.Add(project);
             await _context.SaveChangesAsync(cancellationToken);

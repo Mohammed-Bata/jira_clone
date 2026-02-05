@@ -89,8 +89,18 @@ namespace API.Controllers
         {
             var refreshToken = Request.Cookies["refreshToken"];
 
+            if(refreshToken == "" || refreshToken == null)
+            {
+                return BadRequest("No refresh token provided");
+            }
+
             var command = new RefreshTokensCommand(refreshToken);
             var tokens = await _mediator.Send(command);
+
+            if(tokens == null)
+            {
+                return Unauthorized("Invalid refresh token");
+            }
 
             SetRefreshTokenInCookie(tokens.RefreshToken);
 

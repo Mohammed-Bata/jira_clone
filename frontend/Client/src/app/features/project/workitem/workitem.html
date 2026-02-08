@@ -5,8 +5,45 @@
         required
         placeholder="what needs to be done?"></textarea>
 
-        <div>
-            <button type="submit">create</button>
+        <div class="end">
+            <div class="options">
+                <div class="select-type" [class.open]="typeListOpen" (click)="openTypeList()">
+                    <img [src]="getWorkItemIcon(selectedOption)" />
+                    @if(!typeListOpen){
+                        <svg fill="none" viewBox="0 0 16 16" role="presentation" class="list-arrow"><path fill="currentcolor" d="m14.53 6.03-6 6a.75.75 0 0 1-1.004.052l-.056-.052-6-6 1.06-1.06L8 10.44l5.47-5.47z"></path></svg>
+                    }@else{
+                        <svg fill="none" viewBox="0 0 16 16" role="presentation" class="list-arrow"><path fill="currentcolor" d="m14.53 9.97-6-6a.75.75 0 0 0-1.004-.052l-.056.052-6 6 1.06 1.06L8 5.56l5.47 5.47z"></path></svg>
+                    }
+                </div>
+                @if(typeListOpen){
+                    <div class="type-list">
+                        @for(option of options;track option.value){
+                            <div class="option" [class.selected]="selectedOption === option.value" (click)="select(option)">
+                                <img src="../../../../assets/icons/WorkitemTypes/{{option.label}}.svg" />
+                                {{option.label}}
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="due-date-container"> 
+                <div class="calender" (click)="picker.open()" title="Select due date">
+                    <svg fill="none" viewBox="0 0 16 16" role="presentation" class="calender-icon">
+                    <path fill="currentcolor" fill-rule="evenodd" d="M4.5 2.5v2H6v-2h4v2h1.5v-2H13a.5.5 0 0 1 .5.5v3h-11V3a.5.5 0 0 1 .5-.5zm-2 5V13a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V7.5zm9-6.5H13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1.5V0H6v1h4V0h1.5z" clip-rule="evenodd"></path>
+                    </svg>
+                    <div class="cal">
+
+                        <input [matDatepicker]="picker" 
+                        (dateChange)="onDateChange($event)" 
+                        style="display: none;">
+                        <mat-datepicker #picker></mat-datepicker>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="calender">
+                <svg fill="none" viewBox="0 0 16 16" role="presentation" class="calender-icon"><path fill="currentcolor" fill-rule="evenodd" d="M4.5 2.5v2H6v-2h4v2h1.5v-2H13a.5.5 0 0 1 .5.5v3h-11V3a.5.5 0 0 1 .5-.5zm-2 5V13a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V7.5zm9-6.5H13a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1.5V0H6v1h4V0h1.5z" clip-rule="evenodd"></path></svg>
+            </div> -->
+            <!-- <button type="submit">create</button> -->
         </div>
     </form>
 

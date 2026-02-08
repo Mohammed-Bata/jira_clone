@@ -12,7 +12,8 @@ export const API_ENDPOINTS = {
   PROJECT: {
     CREATE: '/Projects/create',
     GETALL:'/Projects/all',
-    GETPROJECT:'/Projects'
+    GETPROJECT:'/Projects',
+    DELETE:'/Projects'
   },
   WORKITEMS : {
     CREATE: '/WorkItems/create',

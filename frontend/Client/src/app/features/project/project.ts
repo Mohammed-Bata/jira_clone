@@ -12,6 +12,7 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { Invitation } from './invitation/invitation';
 import { switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { icons } from '../../shared/icons/icons';
 
 @Component({
   selector: 'app-project',
@@ -43,11 +44,10 @@ export class Project
     ).subscribe();
   }
 
-  
-  // ngOnInit() {
-  //   const id = Number(this.route.snapshot.paramMap.get('id'));
-  //   this.projectservice.getProject(id);
-  // }
+  getProjectIcon(projectId:number):string{
+      return icons[projectId % icons.length];
+    }
+
 
   opencreate(){
     this.create = !this.create;
@@ -105,8 +105,5 @@ handlecolumndelete(columnId:number){
     });
    
   }
-
-
-
 
 }

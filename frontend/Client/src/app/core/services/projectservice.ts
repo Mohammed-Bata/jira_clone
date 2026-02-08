@@ -17,6 +17,9 @@ export class ProjectService{
   private _project = signal<ProjectDto | null>(null);
   project = this._project.asReadonly();
 
+  private _projects = signal<GetProjectsDto[]>([]);
+  projects = this._projects.asReadonly();
+
   private _loading = signal(true);
   loading = this._loading.asReadonly();
 
@@ -43,19 +46,33 @@ export class ProjectService{
     }
 
     getProjects():Observable<GetProjectsDto[]|any>{
-      return this.http.get<GetProjectsDto>(`${this.apiUrl}${API_ENDPOINTS.PROJECT.GETALL}`)
+      return this.http.get<GetProjectsDto[]>(`${this.apiUrl}${API_ENDPOINTS.PROJECT.GETALL}`)
       .pipe(
-        tap((response)=>console.log(response)), 
+        tap((response)=>{this._projects.set(response); console.log(response);}), 
         catchError((error)=>this.handleError(error))
       );
     }
 
-    createProject(dto : CreateProjectDto):Observable<number | any> {
-      return this.http.post<number>(`${this.apiUrl}${API_ENDPOINTS.PROJECT.CREATE}`, dto)
+    createProject(dto : CreateProjectDto):Observable<GetProjectsDto | any> {
+      return this.http.post<GetProjectsDto>(`${this.apiUrl}${API_ENDPOINTS.PROJECT.CREATE}`, dto)
       .pipe(
-      tap((response) => console.log(response)),
+      tap((response) => {
+        this._projects.update(projects => [...projects, response]);
+        console.log(response);
+      }),
       catchError((error) => this.handleError(error))
       );
+    }
+
+    deleteProject(id:number){
+      return this.http.delete(`${this.apiUrl}${API_ENDPOINTS.PROJECT.DELETE}/${id}`)
+      .pipe(
+        tap((response) =>{ console.log(response);
+          this._projects.update(projects => projects.filter(p => p.id !== id));
+          console.log(response);
+        }),
+        catchError((error) => this.handleError(error))
+      )
     }
 
     private handleError(error:any):Observable<never>{

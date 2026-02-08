@@ -49,8 +49,11 @@ ul{
     padding-left: 18px;
 }
 
-.project:hover{
+.project:not(.actived):hover{
    background-color: #F0F1F2;
+}
+.project.actived:hover{
+    background-color: #B3D4FF;
 }
 
 .hidden{
@@ -96,13 +99,12 @@ ul{
 }
 
 .third{
-    width:52px;
     height:24px;
     padding-right: 4px;
     margin-left: auto;
 }
 
-.third button:hover{
+button:hover{
     background-color:#DFE1E6;
 }
 
@@ -139,3 +141,70 @@ button{
     width:3px;
     background-color: #1868DB;
 }
+
+.actived{
+    color:#1868DB;
+    background-color:#DEEBFF;
+    font-weight: 400;
+}
+li img{
+   width:20px;
+   height:20px;
+   border-radius: 3px; 
+   margin-right: 5px;
+}
+
+li{
+    position: relative;
+}
+
+li .button-icon{
+    position: absolute;
+    right: 0;
+    margin-right: 4px;
+    opacity: 0;
+}
+
+li:hover .button-icon{
+    opacity: 1;
+}
+li .button-icon.menu-open {
+    opacity: 1;
+    border:1px solid #B3D4FF;
+}
+
+li .menu{
+    position: absolute;
+    top:35px;
+    left:90%;
+    display: none;
+    width: 263px;
+    background-color: #fff;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 3px;
+}
+
+.delete{
+    color: #AE2E24;
+    width:24px;
+    height:24px;
+    margin-right: 4px;
+}
+
+
+li .menu div{
+    width: 100%;
+    height:40px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    color: #AE2E24;
+}
+
+li .menu.menuOpen{
+    display: block;
+}
+
+
+

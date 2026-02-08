@@ -1,10 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { jwtDecode } from "jwt-decode";
 
 
 interface JwtPayload {
   sub: string; // userId
-  name: string; 
+  unique_name: string; 
   email: string;
   exp: number;
 }
@@ -16,9 +16,15 @@ interface JwtPayload {
 
 export class TokenService{
     private accessToken:string | null = null;
+    private _user = signal<{name:string, email:string} | null>(null);
+    user = this._user.asReadonly();
     
     setToken(accesstoken:string){
         this.accessToken = accesstoken;
+        this._user.set({
+            name: this.getUserName(),
+            email: this.getUserEmail()!
+        });
     }
 
     getToken(){
@@ -27,11 +33,12 @@ export class TokenService{
 
     clearToken() {
     this.accessToken = null;
-  }
+    this._user.set(null);
+    }
 
     getUserName(): string | any {
     const decoded = this.decodeToken();
-    return decoded?.name || null;
+    return decoded?.unique_name || null;
   }
 
   getUserId(): string | any {

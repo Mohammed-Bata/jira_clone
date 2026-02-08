@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Projects.Queries.GetProjects;
 using Domain;
 using MediatR;
 using System;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace Application.Projects.Commands.CreateProject
 {
-    public class CreateProjectCommandHandler:IRequestHandler<CreateProjectCommand, int>
+    public class CreateProjectCommandHandler:IRequestHandler<CreateProjectCommand, ProjectsDto>
     {
         private readonly IAppDbContext _context;
 
@@ -16,7 +17,7 @@ namespace Application.Projects.Commands.CreateProject
             _context = context;
         }
 
-        public async Task<int> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
+        public async Task<ProjectsDto> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {
             var project = new Project
             {
@@ -56,7 +57,11 @@ namespace Application.Projects.Commands.CreateProject
             _context.Projects.Add(project);
             await _context.SaveChangesAsync(cancellationToken);
 
-            return project.Id;
+            return new ProjectsDto
+            {
+                Id = project.Id,
+                Name = project.Name
+            };
         }   
       
     }

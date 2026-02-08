@@ -43,7 +43,7 @@ export class NotificationsService{
 
     startConnection(token:string){
         this.hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(`${this.apiUrl}/notifications`,{
+        .withUrl('https://localhost:7144/notifications',{
             accessTokenFactory:()=>token 
         })
         .withAutomaticReconnect()

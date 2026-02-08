@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Projects.Commands.CreateProject;
+using Application.Projects.Commands.DeleteProject;
 using Application.Projects.Queries.GetProject;
 using Application.Projects.Queries.GetProjects;
 using MediatR;
@@ -38,7 +39,7 @@ namespace API.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var query = new GetProjectQuery(id,userId!);
+            var query = new GetProjectQuery(id, userId!);
             var project = await _mediator.Send(query);
 
             return project;
@@ -46,13 +47,31 @@ namespace API.Controllers
 
 
         [HttpPost("create")]
-        public async Task<ActionResult<int>> CreateProject(CreateProjectDto dto)
+        public async Task<ActionResult<ProjectsDto>> CreateProject(CreateProjectDto dto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var command = new CreateProjectCommand(dto.Name, dto.Description, userId!);
-            var projectId = await _mediator.Send(command);
-            return CreatedAtAction(nameof(GetProject), new { id = projectId }, projectId);
+            var project = await _mediator.Send(command);
+            return project;
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteProject(int id)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var command = new DeleteProjectCommand(id, userId!);
+
+            var result = await _mediator.Send(command);
+
+            if(!result)
+            {
+                return BadRequest("Failed to delete the project. It may not exist or you may not have permission to delete it.");
+            }
+
+            return NoContent();
+        }
+
     }
 }

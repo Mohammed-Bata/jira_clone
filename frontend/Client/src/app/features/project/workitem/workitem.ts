@@ -1,14 +1,16 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, computed, EventEmitter, Input, Output, signal } from '@angular/core';
 import { workitemservice } from '../../../core/services/workitemservice';
 import { CreateWorkItemDto } from '../../../core/models/WorkItem';
 import { FormsModule } from '@angular/forms';
 import { WorkItemDto } from '../../../core/models/Project';
-import { MatDatepickerModule, MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { Calendar } from '../../../shared/components/calendar/calendar';
+import { DateTime } from 'luxon';
+
+
 
 @Component({
   selector: 'app-workitem',
-  imports: [FormsModule, MatDatepickerModule, MatNativeDateModule],
+  imports: [FormsModule, Calendar],
   templateUrl: './workitem.html',
   styleUrl: './workitem.scss',
 })
@@ -16,20 +18,33 @@ export class Workitem {
   title = '';
   type = '';
   typeListOpen = false;
+  datepickerOpen = false;
+  activeDay = signal<string | null>(null);
   @Input() columnId! : number;
   @Output() createdworkitem = new EventEmitter<WorkItemDto>
 
-  dueDate = signal<Date | null>(null);
+  formattedDay = computed(() => {
+  const dayStr = this.activeDay();
+  if (!dayStr) return '';
+  return DateTime.fromISO(dayStr).toFormat('LLL dd'); // e.g., Feb 10
+});
 
-  onDateChange(event: MatDatepickerInputEvent<Date>) {
-    this.dueDate.set(event.value);
-    console.log("New Due Date selected:", event.value?.toISOString());
+  toggleDatePicker() {
+    this.datepickerOpen = !this.datepickerOpen;
   }
 
+    onDaySelected(day: any) {
+    
+    this.activeDay.set(day.toISODate());
+  
+    this.datepickerOpen = false;
+  }
+
+
   options = [
-    { value: '1', label: 'Task' },
-    { value: '2', label: 'Bug' },
-    { value: '3', label: 'Feature' }
+    { value: 1, label: 'Task' },
+    { value: 2, label: 'Bug' },
+    { value: 3, label: 'Feature' }
   ];
 
   selectedOption = this.options[0].value;
@@ -39,7 +54,7 @@ export class Workitem {
   this.typeListOpen = false;
 }
 
-getWorkItemIcon(optionValue: string) {
+getWorkItemIcon(optionValue: number) {
   return `../../../../assets/icons/WorkitemTypes/${this.options.find(o => o.value === optionValue)?.label}.svg`;
 }
 
@@ -57,6 +72,8 @@ getWorkItemIcon(optionValue: string) {
       projectcolumnid:this.columnId,
       description:"sss",
       assignedtouserid:null,
+      type: this.selectedOption,
+      dueDate: this.activeDay()
     }
 
     this.workItemservice.createWorkItem(dto).subscribe({

@@ -6,8 +6,8 @@ export interface CreateWorkItemDto{
     projectcolumnid:number,
     assignedtouserid:string|null,
     // priority: Priority|null;
-    // dueDate?: string | null;  
-    // type: ItemType|null;
+    type: number;
+    dueDate?: string | null;  
 }
 
 export interface ReorderWorkItemDto{

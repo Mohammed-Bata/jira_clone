@@ -1,0 +1,85 @@
+.calendar-container{
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.calendar-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 16px;
+    height: 24px;
+}
+
+
+.weeks{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+.week{
+    font-size: 12px;
+    padding: 8px;
+    width: 42px;
+    height: 32px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.days{
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.day{
+    padding: 4px 9px;
+    font-size: 14px;
+    width:41px;
+    height: 31px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.day.today{
+    color: #1868DB;
+    position: relative;
+}
+
+.day.outside{
+    color: #6B6E76;
+}
+
+.day.active{
+    color: #1868DB;
+    background-color: #E9F2FE;
+    border-radius: 3px;
+}
+.day.active:hover{
+    background-color: #E9F2FE;
+}
+
+.day.today::after{
+    content: '';
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 1.5px;
+    background-color: #1868DB;
+}
+
+.day:hover{
+    background-color: #0515240F;
+    cursor: pointer;
+    border-radius: 3px;
+}

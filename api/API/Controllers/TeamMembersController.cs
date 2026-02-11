@@ -1,6 +1,7 @@
 ﻿using Application.DTOs;
 using Application.TeamMembers.Commands.AcceptInvite;
 using Application.TeamMembers.Commands.InviteMember;
+using Application.TeamMembers.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,14 @@ namespace API.Controllers
 
             return Ok(new { message = "Welcome to the team!" });
 
+        }
+        [HttpGet("all/{id}")]
+        public async Task<ActionResult<List<UserDto>>> GetTeamMembers(int Id)
+        {
+            var query = new GetTeamMembersQuery(Id);
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
         }
     }
 }

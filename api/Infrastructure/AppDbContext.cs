@@ -19,11 +19,7 @@ namespace Infrastructure
         public DbSet<WorkItem> WorkItems { get; set; }
         public DbSet<ProjectColumn> ProjectColumns { get; set; }
         public DbSet<ProjectMember> ProjectMembers { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<CommentReaction> CommentReactions { get; set; }
-        public DbSet<CommentMention> CommentMentions { get; set; }
         public DbSet<AppUser> Users { get; set; }
-        public DbSet<Activity> Activities { get; set; }
         public DbSet<Notification> Notifications { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Invitation> Invitations { get; set; }

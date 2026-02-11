@@ -4,6 +4,8 @@ import { Workitem } from '../workitem/workitem';
 import { workitemservice } from '../../../core/services/workitemservice';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ColumnService } from '../../../core/services/columnservice';
+import { DateTime } from 'luxon';
+
 
 @Component({
   selector: 'app-column',
@@ -13,6 +15,7 @@ import { ColumnService } from '../../../core/services/columnservice';
 })
 export class Column {
   @Input() column! :ProjectColumnDto;
+  @Input() projectId!:number;
   @Input() connectedTo: string[] = [];
   @Output() columnDeleted = new EventEmitter<number>();
   create : boolean = false;
@@ -24,6 +27,13 @@ export class Column {
   opencreate(){
     this.create = !this.create;
   }
+
+
+formatDate(dateString: string): string {
+  return DateTime
+    .fromISO(dateString)
+    .toFormat('LLL dd, yyyy');
+}
 
   onWorkItemCreated(item:WorkItemDto){
     this.column.workItems.push(item);

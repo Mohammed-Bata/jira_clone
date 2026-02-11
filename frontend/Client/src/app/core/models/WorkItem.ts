@@ -1,11 +1,10 @@
-import { ItemType, Priority } from "./Project";
+
 
 export interface CreateWorkItemDto{
     title:string,
     description:string|null,
     projectcolumnid:number,
     assignedtouserid:string|null,
-    // priority: Priority|null;
     type: number;
     dueDate?: string | null;  
 }

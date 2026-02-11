@@ -30,7 +30,7 @@ namespace Application.Projects.Queries.GetProject
         public int Order { get; set; }
         public string? AssignedToUserId { get; set; }
         public Priority Priority { get; set; }
-        public DateOnly? DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
         public ItemType Type { get; set; }
     }
 }

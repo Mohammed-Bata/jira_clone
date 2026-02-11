@@ -17,7 +17,7 @@
             <div class="columns-wrapper">
                 <section class="columns" cdkDropList [cdkDropListData]="project()!.columns" cdkDropListOrientation="horizontal" (cdkDropListDropped)="onColumnDropped($event)">
                        @for(column of project()!.columns; track column.id){
-                           <app-column [column]="column" (columnDeleted)="handlecolumndelete($event)" cdkDrag [connectedTo]="allColumnIds"></app-column>
+                           <app-column [column]="column" [projectId]="project()!.id" (columnDeleted)="handlecolumndelete($event)" cdkDrag [connectedTo]="allColumnIds"></app-column>
                         }
                    
                     @if(!create){

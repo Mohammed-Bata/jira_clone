@@ -1,4 +1,4 @@
-
+import { ItemType, Priority } from "./Project";
 
 export interface CreateWorkItemDto{
     title:string,
@@ -18,4 +18,17 @@ export interface ReorderWorkItemDto{
 
 export interface ReorderResultDto{
     Order:number;
+}
+
+export interface WorkItemDto{
+    id:number;
+    title:string;
+    description:string|null;
+    assignedToUserId:string|null;
+    assignedToUserName:string|null;
+    authorUserId:string;
+    authorUserName:string;
+    type: ItemType;
+    priority: Priority;
+    dueDate?: string | null;
 }

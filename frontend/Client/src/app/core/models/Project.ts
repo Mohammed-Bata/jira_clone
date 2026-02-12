@@ -13,21 +13,24 @@ export interface WorkItemDto {
   title: string;
   order: number;
   assignedToUserId?: string;
+  assignedToUserName?: string;
   priority: Priority;
   dueDate?: string | null;  // DateOnly comes as string from API
   type: ItemType;
 }
 
 export enum Priority {
-  Low = 0,
-  Medium = 1,
-  High = 2
+  Lowest = 1,
+  Low = 2,
+  Medium = 3,
+  High = 4,
+  Highest = 5
 }
 
 export enum ItemType {
-  Task = 0,
-  Bug = 1,
-  Story = 2
+  Task = 1,
+  Bug = 2,
+  Feature = 3
 }
 
 export interface ProjectColumnDto {

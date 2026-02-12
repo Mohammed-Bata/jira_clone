@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment.development";
 import { HttpClient } from "@angular/common/http";
-import { CreateWorkItemDto, ReorderResultDto, ReorderWorkItemDto } from "../models/WorkItem";
+import { CreateWorkItemDto, ReorderResultDto, ReorderWorkItemDto, WorkItemDto } from "../models/WorkItem";
 import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
 import { catchError, Observable, tap } from "rxjs";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
@@ -19,6 +19,13 @@ export class workitemservice{
 
     constructor(private http:HttpClient){
 
+    }
+
+    getWorkItemById(id:number):Observable<WorkItemDto|any>{
+      return this.http.get<WorkItemDto>(`${this.apiUrl}${API_ENDPOINTS.WORKITEMS.GETBYID}/${id}`)
+      .pipe(
+        tap((response)=>console.log(response)),
+      );
     }
 
     reorderWorkItem(dto:ReorderWorkItemDto):Observable<ReorderResultDto|any>{

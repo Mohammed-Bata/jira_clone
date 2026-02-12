@@ -1,18 +1,24 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, InjectionToken, Injector, Input, Output, ViewChild } from '@angular/core';
 import { ProjectColumnDto, WorkItemDto } from '../../../core/models/Project';
 import { Workitem } from '../workitem/workitem';
 import { workitemservice } from '../../../core/services/workitemservice';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ColumnService } from '../../../core/services/columnservice';
 import { DateTime } from 'luxon';
+import { CdkPortal, ComponentPortal, PortalModule } from '@angular/cdk/portal';
+import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { Workitemdetails } from '../workitemdetails/workitemdetails';
+
+export const WORK_ITEM_ID = new InjectionToken<number>('WORK_ITEM_ID');
 
 
 @Component({
   selector: 'app-column',
-  imports: [Workitem,CdkDrag,CdkDropList,DragDropModule],
+  imports: [Workitem,CdkDrag,CdkDropList,DragDropModule,PortalModule,Workitemdetails],
   templateUrl: './column.html',
   styleUrl: './column.scss',
 })
+
 export class Column {
   @Input() column! :ProjectColumnDto;
   @Input() projectId!:number;
@@ -21,11 +27,60 @@ export class Column {
   create : boolean = false;
   openMenuWorkItemId: number | null = null;
   openMenuColumnId:number | null = null;
+  @ViewChild(CdkPortal) portal!: CdkPortal;
 
-  constructor(private workitemService: workitemservice,private columnService: ColumnService){}
+  types = ['Task', 'Bug', 'Feature'];
+  priorities = ['Lowest', 'Low', 'Medium', 'High', 'Highest'];
+
+
+   private avatarColors = [
+    '#0052CC', '#0747A6', '#0065FF', '#2684FF', 
+    '#00875A', '#36B37E', '#FFAB00', '#FF5630', 
+    '#6554C0', '#5243AA', '#FF8B00', '#00B8D9'
+  ];
+
+  // Pass the ID (string or number) to guarantee uniqueness
+  getAvatarColor(userId: string | number): string {
+    const idString = userId.toString();
+    let hash = 0;
+    
+    for (let i = 0; i < idString.length; i++) {
+      hash = idString.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const index = Math.abs(hash) % this.avatarColors.length;
+    return this.avatarColors[index];
+  }
+
+  constructor(private overlay : Overlay,private injector: Injector ,private workitemService: workitemservice,private columnService: ColumnService){}
 
   opencreate(){
     this.create = !this.create;
+  }
+
+  openWorkItemDetails(itemId:number){
+     const config = new OverlayConfig({
+      positionStrategy : this.overlay.position().global().centerHorizontally().centerVertically(),
+      width:'60%',
+      height:'60%',
+      hasBackdrop: true
+    });
+
+    const overlayRef = this.overlay.create(config);
+
+    const customInjector = Injector.create({
+    parent: this.injector,
+    providers: [
+      { provide: WORK_ITEM_ID, useValue: itemId },
+      { provide: OverlayRef, useValue: overlayRef }
+    ]
+    
+    });
+    const componentPortal = new ComponentPortal(Workitemdetails, null, customInjector);
+    overlayRef.attach(componentPortal);
+
+    //overlayRef.attach(this.portal);
+    overlayRef.backdropClick().subscribe(()=> overlayRef.detach());
   }
 
 

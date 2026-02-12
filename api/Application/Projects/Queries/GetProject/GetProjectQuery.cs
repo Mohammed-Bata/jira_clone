@@ -29,6 +29,7 @@ namespace Application.Projects.Queries.GetProject
         public string Title { get; set; }
         public int Order { get; set; }
         public string? AssignedToUserId { get; set; }
+        public string? AssignedToUserName { get; set; }
         public Priority Priority { get; set; }
         public DateTime? DueDate { get; set; }
         public ItemType Type { get; set; }

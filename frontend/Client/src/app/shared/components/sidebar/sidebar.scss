@@ -147,6 +147,18 @@ button{
     background-color:#DEEBFF;
     font-weight: 400;
 }
+
+.actived::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 25%;
+    bottom: 0;
+    width: 2px;
+    height:50%;
+    background-color: #1868DB;
+}
+
 li img{
    width:20px;
    height:20px;

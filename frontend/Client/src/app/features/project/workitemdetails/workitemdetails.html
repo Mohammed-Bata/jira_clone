@@ -1,0 +1,28 @@
+<div class="workitem-container">
+    @if(loading()){
+        <p>Loading...</p>
+    }@else{
+        <div class="cross" (click)="close()">
+            <svg fill="none" viewBox="-4 -4 24 24" role="presentation" class="cross-icon"><path fill="currentcolor" d="M14.03 3.03 9.06 8l4.97 4.97-1.06 1.06L8 9.06l-4.97 4.97-1.06-1.06L6.94 8 1.97 3.03l1.06-1.06L8 6.94l4.97-4.97z"></path></svg>
+        </div>
+        <h1 class="title">{{ item()?.title }}</h1>
+        <div class="priority">
+            <div class="label">Priority</div>
+            <div class="value">
+                <img [src]= "'../../../../assets/icons/PriorityIcons/' + getPriorityName(item()?.priority!) + '.svg'" />
+                <span>{{ getPriorityName(item()?.priority!) }}</span>
+            </div>
+        </div>
+        <div class="type">
+            <div class="label">Type</div>
+            <div class="value">
+                <img [src]= "'../../../../assets/icons/WorkitemTypes/' + getTypeName(item()?.type!) + '.svg'" />
+                <span>{{ getTypeName(item()?.type!) }}</span>
+            </div>
+        </div>
+        <div class="description">
+            <div class="desc">Description</div>
+            <textarea class="descval" [(ngModel)]="description"></textarea>
+        </div>
+    }
+</div>

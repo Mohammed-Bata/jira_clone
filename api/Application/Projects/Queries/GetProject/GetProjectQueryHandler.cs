@@ -21,8 +21,8 @@ namespace Application.Projects.Queries.GetProject
             using var connection = _sqlConnectionFactory.CreateConnection();
 
             // Implementation to retrieve project data from the database
-            var sql = @"SELECT p.Id,p.Name,pc.Id,pc.Title,pc.[Order],i.Id,i.Title,i.[Order],i.Priority,i.DueDate FROM Projects p 
-                JOIN ProjectColumns pc ON p.Id = pc.ProjectId LEFT JOIN WorkItems i ON pc.Id = i.ProjectColumnId
+            var sql = @"SELECT p.Id,p.Name,pc.Id,pc.Title,pc.[Order],i.Id,i.Title,i.[Order],i.Priority,i.DueDate,i.Type,i.AssignedToUserId,u.Name AS AssignedToUserName FROM Projects p 
+                JOIN ProjectColumns pc ON p.Id = pc.ProjectId LEFT JOIN WorkItems i ON pc.Id = i.ProjectColumnId LEFT JOIN dbo.AspNetUsers u ON i.AssignedToUserId = u.Id
                 WHERE p.Id = @ProjectId
                 ORDER BY pc.[Order] ASC,i.[Order] ASC;";
 

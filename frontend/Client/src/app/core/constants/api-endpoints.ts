@@ -18,7 +18,8 @@ export const API_ENDPOINTS = {
   WORKITEMS : {
     CREATE: '/WorkItems/create',
     DELETE: '/WorkItems',
-    REORDER: '/WorkItems/reorder'
+    REORDER: '/WorkItems/reorder',
+    GETBYID: '/WorkItems',
   },
   Column:{
     CREATE: '/Columns/create',

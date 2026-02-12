@@ -2,6 +2,7 @@
 using Application.WorkItems.Commands.CreateWorkItem;
 using Application.WorkItems.Commands.DeleteWorkItem;
 using Application.WorkItems.Commands.ReorderWorkItem;
+using Application.WorkItems.Queries.GetWorkItem;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +41,17 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetWorkItem(int id)
+        public async Task<ActionResult<WorkItemDto>> GetWorkItem(int id)
         {
-            // Implementation for retrieving a work item by ID
-            return Ok();
+            var query = new GetWorkItemQuery(id);
+            var workItem = await _mediator.Send(query);
+    
+            if (workItem == null)
+            {
+                return NotFound();
+            }
+    
+            return Ok(workItem);
         }
 
         [HttpPost("create")]

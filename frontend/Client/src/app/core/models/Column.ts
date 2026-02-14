@@ -1,4 +1,4 @@
-import { WorkItemDto } from "./Project";
+import { WorkItemPreviewDto } from "./Project";
 
 
 

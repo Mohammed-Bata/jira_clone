@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
     DELETE: '/WorkItems',
     REORDER: '/WorkItems/reorder',
     GETBYID: '/WorkItems',
+    UPDATE:'/WorkItems'
   },
   Column:{
     CREATE: '/Columns/create',

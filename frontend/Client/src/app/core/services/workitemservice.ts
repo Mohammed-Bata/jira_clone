@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment.development";
 import { HttpClient } from "@angular/common/http";
-import { CreateWorkItemDto, ReorderResultDto, ReorderWorkItemDto, WorkItemDto } from "../models/WorkItem";
+import { CreateWorkItemDto, ReorderResultDto, ReorderWorkItemDto, UpdateWorkItemDto, WorkItemDto } from "../models/WorkItem";
 import { observableToBeFn } from "rxjs/internal/testing/TestScheduler";
-import { catchError, Observable, tap } from "rxjs";
+import { catchError, Observable, Subject, tap } from "rxjs";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
+import { WorkItemPatchEvent, WorkItemPreviewDto } from "../models/Project";
 
 
 
@@ -17,8 +18,24 @@ export class workitemservice{
   
     private readonly apiUrl = environment.apiUrl;
 
+    private itemPatchSource = new Subject<WorkItemPatchEvent>();
+    itemPatch$ = this.itemPatchSource.asObservable();
+
     constructor(private http:HttpClient){
 
+    }
+
+    broadcastPatch(id:number,changes:Partial<WorkItemPreviewDto>){
+      this.itemPatchSource.next({id,changes});
+    }
+
+
+
+    updateWorkItem(id:number,dto:UpdateWorkItemDto):Observable<boolean>{
+      return this.http.patch<boolean>(`${this.apiUrl}${API_ENDPOINTS.WORKITEMS.UPDATE}/${id}`,dto)
+      .pipe(
+        tap((response)=>console.log(response))
+      );
     }
 
     getWorkItemById(id:number):Observable<WorkItemDto|any>{

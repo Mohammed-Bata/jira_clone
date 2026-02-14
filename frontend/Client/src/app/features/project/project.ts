@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, Signal, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../core/services/projectservice';
-import { ProjectColumnDto, ProjectDto } from '../../core/models/Project';
+import { ProjectColumnDto, ProjectDto, WorkItemPatchEvent } from '../../core/models/Project';
 import { Workitem } from './workitem/workitem';
 import { Column } from './column/column';
 import { Createcolumn } from './createcolumn/createcolumn';
@@ -13,6 +13,7 @@ import { Invitation } from './invitation/invitation';
 import { switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { icons } from '../../shared/icons/icons';
+import { workitemservice } from '../../core/services/workitemservice';
 
 @Component({
   selector: 'app-project',
@@ -42,7 +43,10 @@ export class Project
       }),
       takeUntilDestroyed() // Auto-unsubscribe when component is destroyed
     ).subscribe();
+
   }
+
+  
 
   getProjectIcon(projectId:number):string{
       return icons[projectId % icons.length];

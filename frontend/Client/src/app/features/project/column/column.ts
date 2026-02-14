@@ -1,5 +1,5 @@
 import { Component, EventEmitter, InjectionToken, Injector, Input, Output, ViewChild } from '@angular/core';
-import { ProjectColumnDto, WorkItemDto } from '../../../core/models/Project';
+import { ProjectColumnDto, WorkItemPatchEvent, WorkItemPreviewDto } from '../../../core/models/Project';
 import { Workitem } from '../workitem/workitem';
 import { workitemservice } from '../../../core/services/workitemservice';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDropListGroup, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
@@ -10,6 +10,7 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { Workitemdetails } from '../workitemdetails/workitemdetails';
 
 export const WORK_ITEM_ID = new InjectionToken<number>('WORK_ITEM_ID');
+export const PROJECT_ID = new InjectionToken<number>('PROJECT_ID');
 
 
 @Component({
@@ -52,11 +53,25 @@ export class Column {
     return this.avatarColors[index];
   }
 
-  constructor(private overlay : Overlay,private injector: Injector ,private workitemService: workitemservice,private columnService: ColumnService){}
+  constructor(private overlay : Overlay,private injector: Injector ,private workitemService: workitemservice,private columnService: ColumnService){
+    this.workitemService.itemPatch$.subscribe(patch=>{
+      this.applyPatchToLocalBoard(patch);
+    })
+  }
+
+  applyPatchToLocalBoard(patch: WorkItemPatchEvent){
+    const item = this.column.workItems.find(i => i.id === patch.id);
+
+    if(item){
+      Object.assign(item, patch.changes);
+    }
+  }
 
   opencreate(){
     this.create = !this.create;
   }
+
+  
 
   openWorkItemDetails(itemId:number){
      const config = new OverlayConfig({
@@ -72,6 +87,7 @@ export class Column {
     parent: this.injector,
     providers: [
       { provide: WORK_ITEM_ID, useValue: itemId },
+      { provide:PROJECT_ID, useValue:this.projectId},
       { provide: OverlayRef, useValue: overlayRef }
     ]
     
@@ -90,7 +106,7 @@ formatDate(dateString: string): string {
     .toFormat('LLL dd, yyyy');
 }
 
-  onWorkItemCreated(item:WorkItemDto){
+  onWorkItemCreated(item:WorkItemPreviewDto){
     this.column.workItems.push(item);
     this.create = false;
   }
@@ -123,7 +139,7 @@ formatDate(dateString: string): string {
     });
   }
 
-  onWorkItemReorder(event:CdkDragDrop<WorkItemDto[]>){
+  onWorkItemReorder(event:CdkDragDrop<WorkItemPreviewDto[]>){
 
     if (event.previousContainer === event.container) {
     // Same column: just reorder

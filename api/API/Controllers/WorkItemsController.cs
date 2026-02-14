@@ -2,6 +2,7 @@
 using Application.WorkItems.Commands.CreateWorkItem;
 using Application.WorkItems.Commands.DeleteWorkItem;
 using Application.WorkItems.Commands.ReorderWorkItem;
+using Application.WorkItems.Commands.UpdateWorkItem;
 using Application.WorkItems.Queries.GetWorkItem;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -64,6 +65,16 @@ namespace API.Controllers
             var result = await _mediator.Send(command);
             return result;
 
+        }
+
+
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<bool>> UpdateWorkItem(int id, UpdateWorkItemDto dto)
+        {
+            var command = new UpdateWorkItemCommand(id,dto);
+
+            var result = await _mediator.Send(command);
+            return result;
         }
     }
 }

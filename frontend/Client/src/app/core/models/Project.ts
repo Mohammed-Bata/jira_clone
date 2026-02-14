@@ -8,7 +8,12 @@ export interface GetProjectsDto{
     name:string |null
 }
 
-export interface WorkItemDto {
+export interface WorkItemPatchEvent{
+  id:number,
+  changes: Partial<WorkItemPreviewDto>;
+}
+
+export interface WorkItemPreviewDto {
   id: number;
   title: string;
   order: number;
@@ -37,7 +42,7 @@ export interface ProjectColumnDto {
   id: number;
   title: string;
   order: number;
-  workItems: WorkItemDto[];
+  workItems: WorkItemPreviewDto[];
 }
 
 export interface ProjectDto {

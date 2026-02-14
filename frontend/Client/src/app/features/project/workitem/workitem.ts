@@ -2,7 +2,7 @@ import { Component, computed, EventEmitter, Input, Output, signal } from '@angul
 import { workitemservice } from '../../../core/services/workitemservice';
 import { CreateWorkItemDto } from '../../../core/models/WorkItem';
 import { FormsModule } from '@angular/forms';
-import { WorkItemDto } from '../../../core/models/Project';
+import { WorkItemPreviewDto } from '../../../core/models/Project';
 import { Calendar } from '../../../shared/components/calendar/calendar';
 import { DateTime } from 'luxon';
 import { User } from '../../../core/models/User';
@@ -27,7 +27,7 @@ export class Workitem {
   selectedMember = signal<User|null>(null);
   @Input() columnId! : number;
   @Input() projectId!:number;
-  @Output() createdworkitem = new EventEmitter<WorkItemDto>
+  @Output() createdworkitem = new EventEmitter<WorkItemPreviewDto>
 
   formattedDay = computed(() => {
   const dayStr = this.activeDay();
@@ -51,6 +51,8 @@ export class Workitem {
     '#00875A', '#36B37E', '#FFAB00', '#FF5630', 
     '#6554C0', '#5243AA', '#FF8B00', '#00B8D9'
   ];
+
+  
 
   // Pass the ID (string or number) to guarantee uniqueness
   getAvatarColor(userId: string | number): string {

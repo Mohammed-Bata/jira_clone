@@ -32,3 +32,12 @@ export interface WorkItemDto{
     priority: Priority;
     dueDate?: string | null;
 }
+
+export interface UpdateWorkItemDto{
+    title?:string|null;
+    description?:string|null;
+    assignedToUserId?:string|null;
+    type?: ItemType|null;
+    priority?: Priority|null;
+    dueDate?: string|null;
+}

@@ -2,7 +2,6 @@ import { DELETE, R } from "@angular/cdk/keycodes";
 
 export const API_ENDPOINTS = {
   AUTH: {
-    ME: '/Users/me',
     LOGIN: '/Users/login',
     REGISTER: '/Users/register',
     REFRESH: '/Users/refresh',

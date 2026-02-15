@@ -1,5 +1,5 @@
 .calendar-container{
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
     padding: 16px;
     border-radius: 4px;
     display: flex;
@@ -50,7 +50,7 @@
 }
 
 .day.today{
-    color: #1868DB;
+    color: var(--primary-color);
     position: relative;
 }
 
@@ -59,7 +59,7 @@
 }
 
 .day.active{
-    color: #1868DB;
+    color: var(--primary-color);
     background-color: #E9F2FE;
     border-radius: 3px;
 }
@@ -75,7 +75,7 @@
     transform: translate(-50%, -50%);
     width: 75%;
     height: 1.5px;
-    background-color: #1868DB;
+    background-color: var(--primary-color);
 }
 
 .day:hover{

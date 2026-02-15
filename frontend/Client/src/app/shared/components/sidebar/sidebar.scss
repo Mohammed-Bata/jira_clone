@@ -5,7 +5,7 @@ aside{
     padding: 12px;
     display: flex;
     position: relative;
-    
+    background-color: var(--primary-bgcolor);
 }
 
 aside .full{
@@ -139,11 +139,11 @@ button{
 
 .drag:hover{
     width:3px;
-    background-color: #1868DB;
+    background-color: var(--primary-color);
 }
 
 .actived{
-    color:#1868DB;
+    color:var(--primary-color);
     background-color:#DEEBFF;
     font-weight: 400;
 }
@@ -156,7 +156,7 @@ button{
     bottom: 0;
     width: 2px;
     height:50%;
-    background-color: #1868DB;
+    background-color: var(--primary-color);
 }
 
 li img{
@@ -191,7 +191,7 @@ li .menu{
     left:90%;
     display: none;
     width: 263px;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     border-radius: 3px;

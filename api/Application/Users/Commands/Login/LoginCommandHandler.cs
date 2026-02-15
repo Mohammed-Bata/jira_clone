@@ -1,5 +1,6 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
+using Domain.Exceptions;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,17 @@ namespace Application.Users.Commands.Login
 
         public async Task<Tokens> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var user = await _authService.CheckPasswordAsync(request.Email, request.Password);
-            if (user == null)
+
+            var Result = await _authService.CheckPasswordAsync(request.Email, request.Password);
+
+            if (!Result.IsSuccess)
             {
-                throw new UnauthorizedAccessException("Invalid email or password.");
+                throw new BadRequestException(Result.Error);
             }
 
             var jwtTokenId = Guid.NewGuid().ToString();
-            var accessToken = await _tokenService.GetAccessToken(user, jwtTokenId);
-            var refreshToken = await _tokenService.CreateNewRefreshToken(user.Id, jwtTokenId);
+            var accessToken = await _tokenService.GetAccessToken(Result.Value, jwtTokenId);
+            var refreshToken = await _tokenService.CreateNewRefreshToken(Result.Value.Id, jwtTokenId);
 
             return new Tokens
             {

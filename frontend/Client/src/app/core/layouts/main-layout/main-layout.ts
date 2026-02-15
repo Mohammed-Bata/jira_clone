@@ -3,6 +3,7 @@ import { Navbar } from '../../../shared/components/navbar/navbar';
 import { Sidebar } from '../../../shared/components/sidebar/sidebar';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../../services/authservice';
+import { UIService } from '../../services/uiservice';
 
 
 @Component({
@@ -13,5 +14,5 @@ import { AuthService } from '../../services/authservice';
 })
 export class MainLayout
 {
-  
+  constructor(public uiservice:UIService){}
 }

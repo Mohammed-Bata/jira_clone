@@ -6,6 +6,7 @@ import { NotificationsService } from '../../../core/services/notificationsservic
 import { Token } from '@angular/compiler';
 import { TokenService } from '../../../core/services/tokenservice';
 import { Router } from '@angular/router';
+import { UIService } from '../../../core/services/uiservice';
 
 @Component({
   selector: 'app-navbar',
@@ -19,11 +20,16 @@ export class Navbar {
   isClicked = false;
   isAvatarClicked = false;
   user: Signal<{ name: string; email: string } | null>;
+  openTheme = false;
 
-  constructor(private router:Router,private authservice:AuthService,public notificationservice:NotificationsService,private tokenservice:TokenService){
+  constructor(private router:Router,private authservice:AuthService,public notificationservice:NotificationsService,private tokenservice:TokenService,public uiservice:UIService){
     this.isAuthenticated$ = this.authservice.isAuthenticated$;
     this.user = this.tokenservice.user;
     console.log(this.user());
+  }
+
+  toggleSidebar(){
+    this.uiservice.toggleSideBar();
   }
 
   toggle(){
@@ -50,6 +56,10 @@ export class Navbar {
 
   gotoLogin(){
     this.router.navigate(['/login']);
+  }
+
+  setTheme(theme:string){
+    this.uiservice.setTheme(theme);
   }
   
 }

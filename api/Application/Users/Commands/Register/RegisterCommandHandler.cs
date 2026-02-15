@@ -29,7 +29,6 @@ namespace Application.Users.Commands.Register
                 
                 Name = request.Name,
                 Email = request.Email,
-                
             };
 
             var result = await _authService.CreateUserAsync(user, request.Password);

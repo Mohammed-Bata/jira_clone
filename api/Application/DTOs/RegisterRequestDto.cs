@@ -8,8 +8,6 @@ namespace Application.DTOs
     (
         string Name,
         string Email,
-        string Password,
-        string ConfirmPassword,
-        string Role
+        string Password
     );
 }

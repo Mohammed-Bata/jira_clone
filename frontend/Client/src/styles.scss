@@ -1,5 +1,16 @@
 
 
+:root{
+  --primary-color:#1868DB;
+  --primary-bgcolor:#fff;
+  --secondary-bgcolor:#F8F8F8 ;
+}
+
+[data-theme='dark'] {
+  --primary-bgcolor:#1F1F21;
+  --secondary-bgcolor: #18191A;
+}
+
 *{
     box-sizing: border-box;
 }
@@ -10,6 +21,10 @@ html, body {
   width: 100%;
   overflow-y: hidden;
   overflow-x: hidden;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
 }
 
 
@@ -34,7 +49,7 @@ html, body {
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background-color: #ffffff;
+  background-color: var(--primary-bgcolor);
   position: fixed;
   top: 0;
   left: 0;
@@ -69,11 +84,3 @@ html, body {
   100% { opacity: 0.8; transform: scale(0.95); }
 }
 
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-
-// html, body { height: 100%; }
-// body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

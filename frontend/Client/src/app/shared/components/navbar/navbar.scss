@@ -1,6 +1,6 @@
 nav{
     min-height: 48px;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
     padding: 0px 12px;
     display: flex;
     align-items: center;
@@ -19,10 +19,13 @@ nav{
     padding: 6px 0;
     border:none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.collapse:hover{
+    background-color: #F8F8F8;
 }
 
 .collapse-icon{
@@ -61,18 +64,18 @@ nav{
     padding: 6px 0;
     border:none;
     cursor: pointer;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .notification-btn.clicked{
-    color:#1868DB;
+    color:var(--primary-color);
     background-color: #E9F2FE;
     transition: background .1s ease-out;
     border-radius: 3px;
-    border:1px solid #1868DB;
+    border:1px solid var(--primary-color);
 }
 
 .menu{
@@ -82,20 +85,20 @@ nav{
     width:540px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     right:28px;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
 }
 
 .avatar-menu{
     width:406px;
-    color:#fff;
+    color:var(--primary-bgcolor);
     font-weight: bold;
     position: absolute;
     top:40px;
-    right:-8px;
+    right:0px;
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    background-color: #fff;
-    border-radius: 3px;
+    background-color: var(--primary-bgcolor);
+    border-radius: 4px;
 }
 
 .menu .top{
@@ -126,8 +129,8 @@ nav{
     width:24px;
     height:24px;
     border-radius: 50%;
-    background-color:  #1868DB;
-    color:#fff;
+    background-color:  var(--primary-color);
+    color:var(--primary-bgcolor);
     font-size: 10px;
     font-weight: bold;
     display: flex;
@@ -175,8 +178,8 @@ nav{
     width:64px;
     height:64px;
     border-radius: 50%;
-    background-color: #1868DB;
-    color:#fff;
+    background-color: var(--primary-color);
+    color:var(--primary-bgcolor);
     font-size: 24px;
     font-weight: 400;
     display: flex;
@@ -188,7 +191,7 @@ nav{
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
 }
 
 .option{
@@ -200,6 +203,7 @@ nav{
     font-size: 14px;
     display: flex;
     align-items: center;
+    position: relative;
 }
 .option:hover{
     background-color: #F8F8F8;
@@ -208,4 +212,50 @@ nav{
     width: 16px;
     height: 16px;
     margin-right: 12px;
+}
+
+.arrow{
+    margin-left: auto;
+    width:12px;
+    height:12px;
+    
+}
+.option.selected{
+    color:var(--primary-color);
+    background-color: #E9F2FE;
+}
+.option.selected::before{
+    content: '';
+    position: absolute;
+    left:0;
+    top:0;
+    width:2px;
+    height:100%;
+    background-color: var(--primary-color);
+}
+
+.theme-menu{
+    background-color: var(--primary-bgcolor);
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left:-43%;
+    top:0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.theme{
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap:8px;
+    color:#292A2E;
+}
+.theme img{
+    width: 64px;
+    height:48px;
+    object-fit: cover;
+}
+.theme.selected{
+    background-color: #E9F2FE;
+    color:var(--primary-color);
 }

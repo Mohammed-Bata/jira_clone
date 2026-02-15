@@ -26,39 +26,6 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
-
-        //[HttpGet("me")]
-        //[Authorize]
-        //public IActionResult Me()
-        //{
-        //    var user = HttpContext.User;
-
-        //    if (user == null)
-        //    {
-        //        return Unauthorized();
-        //    }
-
-        //    var cookieValue = Request.Cookies["accessToken"];
-        //    Console.WriteLine(cookieValue);
-
-        //    Console.WriteLine($"IsAuthenticated: {User.Identity?.IsAuthenticated}");
-        //    Console.WriteLine($"User claims count: {User.Claims.Count()}");
-
-        //    var userId = user.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-        //    var userName = user.FindFirst(ClaimTypes.Name)?.Value;
-        //    var userEmail = user.FindFirst(ClaimTypes.Email)?.Value;
-
-        //    Console.WriteLine("User ID: " + userId);
-
-        //    return Ok(new
-        //    {
-        //        Id = userId,
-        //        Name = userName,
-        //        Email = userEmail
-        //    });
-
-        //}
-
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(LoginRequestDto model)
         {
@@ -78,7 +45,7 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<User>> Register(RegisterRequestDto model)
         {
-            var command = new RegisterCommand(model.Name, model.Email, model.Password, model.ConfirmPassword);
+            var command = new RegisterCommand(model.Name, model.Email, model.Password);
             var result = await _mediator.Send(command);
 
             return Ok(result);

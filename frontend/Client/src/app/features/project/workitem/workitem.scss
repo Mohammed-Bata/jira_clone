@@ -1,10 +1,10 @@
 :host {
     width:260px;
     height:100px;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
     padding: 12px;
     margin-top: 3px;
-    border: 2px solid #1868DB;
+    border: 2px solid var(--primary-color);
     display: flex;
     flex-direction: column;
 }
@@ -43,7 +43,7 @@ textarea{
 }
 .select-type.open{
     background-color: #E9F2FE;
-    border:1px solid #1868DB;
+    border:1px solid var(--primary-color);
 }
 
 .list-arrow{
@@ -61,7 +61,7 @@ img{
     position: absolute;
     top:22px;
     z-index: 100;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
     padding: 8px 0;
     border-radius:3px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -102,7 +102,7 @@ img{
 
 .calender.open{
     background-color: #E9F2FE;
-    border:1px solid #1868DB;
+    border:1px solid var(--primary-color);
     border-radius: 3px;
 }
 
@@ -131,7 +131,7 @@ app-calendar{
 }
 .assigned.open{
     background-color: #E9F2FE;
-    border:1px solid #1868DB;
+    border:1px solid var(--primary-color);
 }
 .assigned:hover{
     background-color:#0515240F;
@@ -146,7 +146,7 @@ app-calendar{
     top:-30px;
     left:30px;
     width:300px;
-    background-color:#fff;
+    background-color:var(--primary-bgcolor);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     z-index: 100;
     border-radius: 3px;
@@ -169,7 +169,7 @@ app-calendar{
     bottom: 0;
     width:2px;
     height:100%;
-    background-color: #1868DB;
+    background-color: var(--primary-color);
 }
 
 .member:hover{
@@ -188,7 +188,7 @@ app-calendar{
     bottom: 0;
     width:2px;
     height:100%;
-    background-color: #1868DB;
+    background-color: var(--primary-color);
 }
 
 .letters{
@@ -199,7 +199,7 @@ app-calendar{
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--primary-bgcolor);
     font-size: 12px;
 }
 .name{
@@ -222,7 +222,7 @@ app-calendar{
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--primary-bgcolor);
     font-size: 8px;
 }
 
@@ -233,7 +233,7 @@ app-calendar{
     padding: 2px 0px;
     cursor: pointer;
     border: 1px solid #F8F8F8;
-    background-color: #fff;
+    background-color: var(--primary-bgcolor);
     display: flex;
     align-items: center;
     justify-content: center;

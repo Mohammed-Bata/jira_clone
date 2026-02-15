@@ -70,7 +70,7 @@
 }
 
 .logo span{
-    color:#1868DB;
+    color:var(--primary-color);
     font-weight: bold;
     font-size: 30px;
 }
@@ -103,7 +103,7 @@ input{
 }
 
 input:focus{
-    outline-color: #1868DB;
+    outline-color: var(--primary-color);
 }
 
 input.error{
@@ -117,8 +117,8 @@ input.error{
 }
 
 .two button{
-    color:#FFFFFF;
-    background-color: #1868DB;
+    color:var(--primary-bgcolor);
+    background-color: var(--primary-color);
      width: 100%;
     height:40px;
     margin-top: 12px;
@@ -194,4 +194,8 @@ li button span{
     color:#AE2E24;
     font-size: 12px;
     margin-top: 4px;
+}
+
+.hidden{
+    display: none;
 }

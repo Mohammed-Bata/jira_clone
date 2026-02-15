@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.DTOs;
+using Application.Interfaces;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -17,31 +18,52 @@ namespace Infrastructure.Services
             _userManager = userManager;
         }
 
-        public async Task<User?> CheckPasswordAsync(string email, string password)
+        public async Task<Result<User>> CheckPasswordAsync(string email, string password)
         {
             var applicationUser = await _userManager.FindByEmailAsync(email);
             if (applicationUser == null)
             {
-                return null;
+                return Result<User>.Failure("Invalid Email or Password");
             }
+
+            var hasPassword = await _userManager.HasPasswordAsync(applicationUser);
+
+            if (!hasPassword)
+            {
+                var logins = await _userManager.GetLoginsAsync(applicationUser);
+
+                if (logins.Any())
+                    return Result<User>.Failure(
+                        $"This account uses {logins.First().LoginProvider} Sign-In"
+                    );
+
+                // Safety fallback if user has no password and no external login
+                return Result<User>.Failure("Invalid Email or Password");
+            }
+                
             var result = await _userManager.CheckPasswordAsync(applicationUser, password);
 
             if (result == false)
             {
-                return null;
+                return Result<User>.Failure("Invalid Email or Password");
             }
-            return new User
+
+            var User = new User
             {
                 Id = applicationUser.Id,
                 Name = applicationUser.Name,
                 Email = applicationUser.Email
             };
+
+            return Result<User>.Success(User);
+
         }
 
         public async Task<bool> CreateUserAsync(User user, string password)
         {
             var applicationUser = new AppUser
             {
+                UserName = user.Name,
                 Name = user.Name,
                 Email = user.Email
             };
@@ -100,6 +122,20 @@ namespace Infrastructure.Services
         //        Email = applicationUser.Email
         //    };
 
+        //}
+
+        //public async Task<List<string>> GetProviders(string userId)
+        //{
+        //    var user = await _userManager.FindByIdAsync(userId);
+
+        //    if (user == null)
+        //        throw new Exception("User not found");
+
+        //    var logins = await _userManager.GetLoginsAsync(user);
+
+        //    return logins
+        //        .Select(l => l.LoginProvider)
+        //        .ToList();
         //}
 
        public async Task<User?> CreateOrUpdateUserWithProviderAsync(string email, string name, string provider, string providerId,string picture)

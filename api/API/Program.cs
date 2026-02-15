@@ -1,3 +1,4 @@
+using API.ExceptionHandler;
 using Application;
 using Azure.Core;
 using Infrastructure;
@@ -18,6 +19,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddSignalR();
 
@@ -124,6 +128,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+app.UseExceptionHandler();
 
 app.UseCors("AllowAngular");
 

@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, catchError, Observable, of, tap, throwError } from "rxjs";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
 import { TokenService } from "./tokenservice";
-import { TokenResponse } from "../models/Auth";
+import { LoginRequest, RegisterRequest, TokenResponse, UserResponse } from "../models/Auth";
 import { Router } from "@angular/router";
 import { NotificationsService } from "./notificationsservice";
 
@@ -97,15 +97,50 @@ export class AuthService{
       window.location.href = `${this.apiUrl}/Users/google/login`;
     }
 
+    register(registerRequest:RegisterRequest):Observable<UserResponse>{
+      return this.http.post<UserResponse>(`${this.apiUrl}${API_ENDPOINTS.AUTH.REGISTER}`,registerRequest,{withCredentials:true})
+      .pipe(
+        tap((response)=>console.log(response))
+      )
+    }
+
+    handleAuthSuccess(token:TokenResponse){
+      this.tokenservice.setToken(token.accessToken);
+      this.setAuthenticated(true);
+
+      this.notificationservice.startConnection(token.accessToken);
+      this.notificationservice.loadNotifications();
+    }
+
+    login(loginRequest:LoginRequest):Observable<TokenResponse>{
+      return this.http.post<TokenResponse>(`${this.apiUrl}${API_ENDPOINTS.AUTH.LOGIN}`,loginRequest, {
+        withCredentials: true,
+      }).pipe(
+        tap((response)=>this.handleAuthSuccess(response))
+      )
+    }
+
 
     // Microsoft OAuth Login
-    loginWithMicrosoft(){
-        window.location.href = `${this.apiUrl}/Users/microsoft/login`;
+    loginWithMicrosoft(returnUrl:string|null){
+
+      if(returnUrl !== null){
+        localStorage.setItem('returnUrl',returnUrl);
+        console.log("authserviceloginbygoogle",localStorage.getItem('returnUrl'));
+      }
+
+      window.location.href = `${this.apiUrl}/Users/microsoft/login`;
     }
 
     // GitHub OAuth Login
-    loginWithGitHub(){
-        window.location.href = `${this.apiUrl}/Users/github/login`
+    loginWithGitHub(returnUrl:string|null){
+
+      if(returnUrl !== null){
+        localStorage.setItem('returnUrl',returnUrl);
+        console.log("authserviceloginbygoogle",localStorage.getItem('returnUrl'));
+      }
+
+      window.location.href = `${this.apiUrl}/Users/github/login`
     }
 
     handleOAuth(){

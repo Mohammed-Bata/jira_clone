@@ -30,7 +30,7 @@ namespace Application.Notifications.Queries.GetNotificationsByStatus
                 _ => null
             };
 
-            var sql = @"SELECT n.Id,n.Message,n.CreatedAt,n.IsRead,u.Name FROM Notifications n LEFT JOIN Users u ON n.ActorId = u.Id
+            var sql = @"SELECT n.Id,n.Message,n.CreatedAt,n.IsRead,u.Name AS ActorName FROM Notifications n LEFT JOIN dbo.AspNetUsers u ON n.ActorId = u.Id
             WHERE n.UserId = @userId AND (@IsRead IS NULL OR n.IsRead = @IsRead)
             ORDER BY n.CreatedAt DESC
             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY;";

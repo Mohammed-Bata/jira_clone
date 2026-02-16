@@ -36,6 +36,7 @@ export class Navbar {
     this.isClicked = !this.isClicked;
 
     if(this.isClicked){
+      console.log('startgetnoti');
       this.notificationservice.loadNotifications();
     }
   }

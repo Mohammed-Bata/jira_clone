@@ -14,7 +14,7 @@
     width: 28px;
     height: 28px;
     margin-left: auto;
-    border: 1px solid #E0E0E0;
+    border: 1px solid var(--border);
     border-radius: 4px;
     display: flex;
     justify-content: center;
@@ -26,7 +26,7 @@
 }
 
 .cross-icon{
-   color: #505258;
+   color: var(--gray-text);
 }
 .type, .priority{
     display: flex;
@@ -38,9 +38,10 @@
     font-size: 14px;
     border-radius: 4px;
     padding: 4px;
+    color:var(--gray-text);
 }
 .label:hover{
-    background-color: #0B120E24;
+    background-color: var(--border);
 }
 .value{
     width:50%;
@@ -49,16 +50,26 @@
      padding: 4px;
     border-radius: 4px;
     font-size: 14px;
+    color:var(--primary-text);
 }
 .value:hover{
-    background-color: #0B120E24;
+    background-color: var(--border);
 }
 .value img{
     margin-right: 6px;
 }
 
+div.description{
+    margin: 16px 0;
+    font-size:14px;
+}
+
 .desc{
+    color:var(--gray-text);
     margin-bottom: 6px;
+}
+input.description{
+    color:var(--primary-text);
 }
 
 img{
@@ -81,7 +92,7 @@ input{
 
 .title{
     font-size: 24px;
-    color:#292A2E;
+    color:var(--primary-text);
     font-weight: bold;
     padding: 6px;
     margin: 10px 0;
@@ -89,7 +100,7 @@ input{
 }
 
 .title:hover{
-    background-color: #0B120E24;
+    background-color: var(--border);
 }
 
 .title:focus{

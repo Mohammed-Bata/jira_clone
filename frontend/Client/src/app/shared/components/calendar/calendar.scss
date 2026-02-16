@@ -17,6 +17,14 @@
     height: 24px;
 }
 
+.header-month{
+    color:var(--primary-text);
+}
+
+.premonth , .nextmonth{
+    color:var(--gray-text);
+}
+
 
 .weeks{
     display: grid;
@@ -31,6 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color:var(--gray-text);
 }
 
 .days{
@@ -47,6 +56,7 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    color:var(--primary-text);
 }
 
 .day.today{
@@ -60,7 +70,7 @@
 
 .day.active{
     color: var(--primary-color);
-    background-color: #E9F2FE;
+    background-color: var(--bg-day);
     border-radius: 3px;
 }
 .day.active:hover{
@@ -79,7 +89,7 @@
 }
 
 .day:hover{
-    background-color: #0515240F;
+    background-color:var(--bg-count);
     cursor: pointer;
     border-radius: 3px;
 }

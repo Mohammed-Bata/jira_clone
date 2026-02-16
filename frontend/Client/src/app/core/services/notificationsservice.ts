@@ -30,14 +30,20 @@ export class NotificationsService{
     }
 
     loadNotifications(): void{
-        if(this.notificationsSubject.value !== null){
+        console.log('inthemethod');
+        if(this.notificationsSubject.value.length > 0){
+            console.log(this.notificationsSubject.value.length);
+            console.log(this.notificationsSubject.value);
             return;
         }
-
+        console.log('getting');
         this.http.get<NotificationDto[]>(`${this.apiUrl}${API_ENDPOINTS.Notification.GETALL}`,{params:{
             Status:'all'
         },withCredentials:true}).subscribe({
-            next:(notifications)=>this.notificationsSubject.next(notifications)
+            next:(notifications)=>{
+                console.log(notifications);
+                this.notificationsSubject.next(notifications);
+            }
         })
     }
 

@@ -68,11 +68,17 @@ ul{
     width:24px;
     height:100%;
     margin-right: 4px;
+    color:var(--gray-text);
 }
 
 .icon{
     position: absolute;
     left:3px;
+}
+
+.spaces{
+    color:var(--gray-text);
+    font-size: 14px;
 }
 
 .default {
@@ -108,10 +114,11 @@ button:hover{
     background-color:#DFE1E6;
 }
 
-.dots .plus{
+.dots,.plus{
     width:12px;
     height:12px;
     padding-top: 2px;
+    color:var(--gray-text);
 }
 
 .button-icon{
@@ -129,7 +136,7 @@ button{
 
 .drag{
     cursor: ew-resize;
-    background-color: #0B120E24;
+    background-color: var(--border);
     width:1px;
     position: absolute;
     top:0;
@@ -144,7 +151,7 @@ button{
 
 .actived{
     color:var(--primary-color);
-    background-color:#DEEBFF;
+    background-color:var(--bg-day);
     font-weight: 400;
 }
 

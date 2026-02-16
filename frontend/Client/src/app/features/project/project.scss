@@ -15,6 +15,10 @@
     gap:8px
 }
 
+.space h3{
+    color:var(--primary-text);
+}
+
 .team{
     width:16px;
     height:16px;
@@ -33,6 +37,7 @@
     background-color: var(--primary-bgcolor);
 }
 
+
 img{
     width:20px;
    height:20px;
@@ -41,7 +46,7 @@ img{
 
 button{
     background-color: transparent;
-    color: var(--text-secondary);
+    color: var(--gray-text);
     font-size: 14px;
     display: flex;
     align-items: center;
@@ -52,7 +57,13 @@ button{
     transition: background-color 0.2s ease-in-out;
     width:fit-content;
     height: fit-content;
-    border:2px solid #F8F8F8;
+    border:1px solid var(--border);
+    width:32px;
+    height:32px;
+}
+
+button:hover{
+    background-color: var(--bg-hover);
 }
 
 .plus{

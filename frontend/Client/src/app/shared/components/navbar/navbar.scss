@@ -5,7 +5,7 @@ nav{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #0B120E24;
+    border-bottom: 1px solid var(--border);
 }
 
 .button{
@@ -25,12 +25,13 @@ nav{
     justify-content: center;
 }
 .collapse:hover{
-    background-color: #F8F8F8;
+    background-color: var(--secondary-bgcolor);
 }
 
 .collapse-icon{
     width: 16px;
     height: 16px;
+    fill:var(--gray-text);
 }
 
 .logo{
@@ -40,9 +41,16 @@ nav{
     align-items: center;
 }
 
+.logo span{
+    color:var(--primary-text);
+    font-size: 14px;
+    font-weight: 600;
+}
+
 .jira-icon{
     width:24px;
     height:24px;
+    margin-right: 5px;
 }
 
 .left{
@@ -68,6 +76,11 @@ nav{
     display: flex;
     align-items: center;
     justify-content: center;
+    color:var(--gray-text);
+}
+
+.notification-btn:hover{
+    background-color: var(--bg-hover);
 }
 
 .notification-btn.clicked{
@@ -107,12 +120,13 @@ nav{
     justify-content: space-between;
     align-items: center;
     margin: 24px 16px 16px 24px;
+    color:var(--primary-text);
 
 }
 
 .menu .top .address{
     font-size:24px;
-    color: #292A2E;
+    color: var(--primary-text);
     font-weight: bold;
 }
 
@@ -142,7 +156,7 @@ nav{
 .info-screen{
     width:390px;
     height:96px;
-    background-color: #F8F8F8;
+    background-color: var(--secondary-bgcolor);
     margin: 8px;
     padding: 16px;
     border-radius: 3px;
@@ -151,8 +165,8 @@ nav{
 .info-menu{ 
     display: flex;
     gap:16px;
-    color: #292A2E;
-    background-color: #F8F8F8;
+    color: var(--primary-text);
+    background-color: var(--secondary-bgcolor);
     height: 64px;
 }
 
@@ -167,6 +181,7 @@ nav{
 .name{
     font-size: 20px;
     font-weight: bold;
+    color:var(--primary-text);
 }
 
 .email{
@@ -199,14 +214,14 @@ nav{
     cursor: pointer;
     width: 100%;
     height: 40px;
-    color: #292A2E;
+    color: var(--primary-text);
     font-size: 14px;
     display: flex;
     align-items: center;
     position: relative;
 }
 .option:hover{
-    background-color: #F8F8F8;
+    background-color: var(--secondary-bgcolor);
 }
 .option-icon{
     width: 16px;
@@ -248,7 +263,7 @@ nav{
     display: flex;
     align-items: center;
     gap:8px;
-    color:#292A2E;
+    color:var(--primary-text);
 }
 .theme img{
     width: 64px;

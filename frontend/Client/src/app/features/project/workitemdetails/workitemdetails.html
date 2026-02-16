@@ -42,7 +42,6 @@
         </div>
         <div class="description">
             <div class="desc">Description</div>
-            <!-- <textarea class="descval" [(ngModel)]="description"></textarea> -->
             <input class="description" [placeholder]="!item()?.description ? 'Add description...' : 'item()?.description'" [ngModel]="item()?.description" (blur)="updateProperty('description', $any($event.target).value)" (keyup.enter)="$any($event.target).blur()" />
         </div>
         <div class="assignee">

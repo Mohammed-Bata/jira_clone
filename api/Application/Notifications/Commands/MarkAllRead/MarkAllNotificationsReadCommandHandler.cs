@@ -20,6 +20,8 @@ namespace Application.Notifications.Commands.MarkAllRead
         {
             var updatedRows = await _context.Notifications.Where(n => n.UserId == request.UserId && !n.IsRead).ExecuteUpdateAsync(n => n.SetProperty(x => x.IsRead, true), cancellationToken);
 
+            
+            
             return updatedRows > 0 ? true : false;
         }
     }

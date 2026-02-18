@@ -10,6 +10,7 @@ namespace Application.DTOs
         string? Description,
         int ProjectColumnId,
         string? AssignedToUserId,
+        string? AssignedToUserName,
         Priority Priority = Priority.Medium,
         DateOnly? DueDate = null,
         ItemType Type = ItemType.Task

@@ -47,14 +47,14 @@
         <div class="assignee">
             <div class="label">Assignee</div>
             <div class="value" (click)="toggleAssigned(); openTypeList = false;openPriorityList = false" [class.open]="openAssigneeList">
-                <div class="lets" [style.background-color]="getAvatarColor(item()?.assignedToUserId)">{{item()?.assignedToUserName?.substring(0,2)?.toUpperCase() || 'UA'}}</div>
+                <div class="lets" [style.background-color]="item()?.assignedToUserId | avatarColor">{{item()?.assignedToUserName | initials}}</div>
                 <span>{{item()?.assignedToUserName || 'Un Assigned'}}</span>
             </div>
             @if(openAssigneeList){
                 <div class="members-list">
                     @for(option of teamMembers(); track option.id){
                         <div class="option" [class.selected]="option.id === item()?.assignedToUserId" (click)="selectAssignee(option.id)">
-                            <div class="letters" [style.background-color]="getAvatarColor(option.id)">{{option?.name?.substring(0,2)?.toUpperCase() || 'UA'}}</div>
+                            <div class="letters" [style.background-color]="option.id | avatarColor">{{option?.name | initials}}</div>
                             <span>{{option.name}}</span>
                         </div>
                     }

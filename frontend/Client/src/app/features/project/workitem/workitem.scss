@@ -16,6 +16,7 @@ textarea{
     background: transparent;
     resize: none;
     width: 100%;
+    color:var(--primary-text);
 }
 
 .end{
@@ -260,11 +261,12 @@ app-calendar{
     align-items: center;
     justify-content: center;
     border-radius: 3px;
-    color: var(--create-btn);
+    color:var(--gray-text);
 }
 
 .create:disabled{
     cursor: not-allowed;
+    color: var(--create-btn);
 }
 
 .create:hover{

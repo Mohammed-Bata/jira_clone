@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, Signal, ViewChild } from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit, signal, Signal, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from '../../core/services/projectservice';
 import { ProjectColumnDto, ProjectDto, WorkItemPatchEvent } from '../../core/models/Project';
@@ -14,6 +14,7 @@ import { switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { icons } from '../../shared/icons/icons';
 import { workitemservice } from '../../core/services/workitemservice';
+import { NotificationsService } from '../../core/services/notificationsservice';
 
 @Component({
   selector: 'app-project',
@@ -21,29 +22,40 @@ import { workitemservice } from '../../core/services/workitemservice';
   templateUrl: './project.html',
   styleUrl: './project.scss',
 })
-export class Project 
-//implements OnInit 
+export class Project implements OnInit, OnDestroy
 {
   project:Signal<ProjectDto | null>;
   loading:Signal<boolean>;
   @ViewChild(CdkPortal) portal!: CdkPortal;
   create : boolean = false;
 
-  constructor(private route:ActivatedRoute,private projectservice:ProjectService,private columnService:ColumnService,private overlay : Overlay){
+  constructor(private route:ActivatedRoute,private projectservice:ProjectService,private columnService:ColumnService,private overlay : Overlay, private notificationservice:NotificationsService,private destroyRef: DestroyRef){
     this.project = this.projectservice.project;
     this.loading = this.projectservice.loading;
 
-    this.route.paramMap.pipe(
+  }
+
+  ngOnInit(): void {
+     this.route.paramMap.pipe(
       switchMap(params => {
         const id = Number(params.get('id'));
         
-        // Reset the UI to "Loading" state immediately when switching
-        // by calling a clear or just waiting for the next 'tap'
+        if(id){
+          this.notificationservice.joinProjectGroup(id.toString());
+        }
+        
         return this.projectservice.getProject(id);
       }),
-      takeUntilDestroyed() // Auto-unsubscribe when component is destroyed
+      takeUntilDestroyed(this.destroyRef) 
     ).subscribe();
 
+  }
+
+  ngOnDestroy(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.notificationservice.leaveProjectGroup(id);
+    }
   }
 
   

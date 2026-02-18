@@ -7,12 +7,14 @@ import { Calendar } from '../../../shared/components/calendar/calendar';
 import { DateTime } from 'luxon';
 import { User } from '../../../core/models/User';
 import { TeamService } from '../../../core/services/teamservice';
+import { AvatarColorPipe } from '../../../shared/pipes/avatar-color-pipe';
+import { InitialsPipe } from '../../../shared/pipes/initials-pipe';
 
 
 
 @Component({
   selector: 'app-workitem',
-  imports: [FormsModule, Calendar],
+  imports: [FormsModule, Calendar,AvatarColorPipe,InitialsPipe],
   templateUrl: './workitem.html',
   styleUrl: './workitem.scss',
 })
@@ -44,27 +46,6 @@ export class Workitem {
     this.activeDay.set(day.toISODate());
   
     this.datepickerOpen = false;
-  }
-
-  private avatarColors = [
-    '#0052CC', '#0747A6', '#0065FF', '#2684FF', 
-    '#00875A', '#36B37E', '#FFAB00', '#FF5630', 
-    '#6554C0', '#5243AA', '#FF8B00', '#00B8D9'
-  ];
-
-  
-
-  // Pass the ID (string or number) to guarantee uniqueness
-  getAvatarColor(userId: string | number): string {
-    const idString = userId.toString();
-    let hash = 0;
-    
-    for (let i = 0; i < idString.length; i++) {
-      hash = idString.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    const index = Math.abs(hash) % this.avatarColors.length;
-    return this.avatarColors[index];
   }
 
 
@@ -99,6 +80,7 @@ getWorkItemIcon(optionValue: number) {
       projectcolumnid:this.columnId,
       description:'',
       assignedtouserid:this.selectedMember() ? this.selectedMember()!.id : null,
+      assignedtousername:this.selectedMember() ? this.selectedMember()!.name :null,
       type: this.selectedOption,
       dueDate: this.activeDay()
     }

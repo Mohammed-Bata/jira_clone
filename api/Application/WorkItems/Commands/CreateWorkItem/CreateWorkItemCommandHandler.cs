@@ -1,9 +1,11 @@
-﻿using Application.Interfaces;
+﻿using Application.DTOs;
+using Application.Interfaces;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Application.WorkItems.Commands.CreateWorkItem
@@ -11,10 +13,12 @@ namespace Application.WorkItems.Commands.CreateWorkItem
     public class CreateWorkItemCommandHandler: IRequestHandler<CreateWorkItemCommand, CreateWorkItemResult>
     {
         private readonly IAppDbContext _context;
+        private readonly INotificationService _notificationService;
 
-        public CreateWorkItemCommandHandler(IAppDbContext context)
+        public CreateWorkItemCommandHandler(IAppDbContext context,INotificationService notificationService)
         {
             _context = context;
+            _notificationService = notificationService;
         }
 
         public async Task<CreateWorkItemResult> Handle(CreateWorkItemCommand request, CancellationToken cancellationToken)
@@ -37,13 +41,39 @@ namespace Application.WorkItems.Commands.CreateWorkItem
             };
 
             _context.WorkItems.Add(workItem);
+
+
+            var notification = new Notification
+            {
+                UserId = request.AssignedToUserId,
+                Message = "Assigned Workitem To You",
+                ActorId = request.AuthorUserId,
+            };
+
+            _context.Notifications.Add(notification);
+
+
             await _context.SaveChangesAsync(cancellationToken);
+
+
+            var notificationDto = new NotificationDto
+            {
+                Id = notification.Id,
+                Message = notification.Message,
+                ActorId = notification.ActorId,
+                ActorName = request.AuthorName,
+                CreatedAt = notification.CreatedAt,
+                IsRead = notification.IsRead,
+            };
+
+            await _notificationService.SendToUser(request.AssignedToUserId,notificationDto);
 
             var result = new CreateWorkItemResult
             (
                 workItem.Id,
                 workItem.Title,
                 workItem.AssignedToUserId,
+                request.AssignedToUserName,
                 workItem.Order,
                 workItem.Priority,
                 workItem.DueDate,

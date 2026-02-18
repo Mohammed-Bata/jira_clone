@@ -1,8 +1,9 @@
 export interface NotificationDto{
     id:number,
     message:string,
-    actorname:string,
-    createdat:string,
+    actorId:string,
+    actorName:string,
+    createdAt:string,
     isread:boolean
 }
 

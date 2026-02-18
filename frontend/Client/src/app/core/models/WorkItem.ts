@@ -5,6 +5,7 @@ export interface CreateWorkItemDto{
     description:string|null,
     projectcolumnid:number,
     assignedtouserid:string|null,
+    assignedtousername:string|null,
     type: number;
     dueDate?: string | null;  
 }

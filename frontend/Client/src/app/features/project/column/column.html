@@ -2,7 +2,6 @@
 <div class="column" cdkDropList [id]="'list-' + column.id" [cdkDropListConnectedTo]="connectedTo" [cdkDropListData]="column.workItems" (cdkDropListDropped)="onWorkItemReorder($event)">
     <div class="header">
         <div class="title">
-
             <div class="cname">
                 {{column.title}}
             </div>
@@ -40,7 +39,7 @@
                         <div class="options">
                             @if(openMenuWorkItemId === item.id){
                                 <ul>
-                                    <li (click)="deleteWorkItem(item.id)">Delete</li>
+                                    <li (click)="deleteWorkItem(item.id); ; $event.stopPropagation()">Delete</li>
                                 </ul>
                             }
                         </div>
@@ -61,7 +60,7 @@
                             </div>
                             @if(item.assignedToUserId&&item.assignedToUserName){
                             <div class="assigned">
-                                <div class="lets" [style.background-color]="getAvatarColor(item.assignedToUserId!)">{{item.assignedToUserName!.substring(0,2).toUpperCase()}}</div>
+                                <div class="lets" [style.background-color]="item.assignedToUserId! | avatarColor">{{item.assignedToUserName!| initials}}</div>
                             </div>
                             }@else{
                             <div class="unassigned">

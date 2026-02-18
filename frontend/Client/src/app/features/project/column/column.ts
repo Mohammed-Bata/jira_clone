@@ -8,6 +8,8 @@ import { DateTime } from 'luxon';
 import { CdkPortal, ComponentPortal, PortalModule } from '@angular/cdk/portal';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { Workitemdetails } from '../workitemdetails/workitemdetails';
+import { AvatarColorPipe } from '../../../shared/pipes/avatar-color-pipe';
+import { InitialsPipe } from '../../../shared/pipes/initials-pipe';
 
 export const WORK_ITEM_ID = new InjectionToken<number>('WORK_ITEM_ID');
 export const PROJECT_ID = new InjectionToken<number>('PROJECT_ID');
@@ -15,7 +17,7 @@ export const PROJECT_ID = new InjectionToken<number>('PROJECT_ID');
 
 @Component({
   selector: 'app-column',
-  imports: [Workitem,CdkDrag,CdkDropList,DragDropModule,PortalModule,Workitemdetails],
+  imports: [Workitem,CdkDrag,CdkDropList,DragDropModule,PortalModule,Workitemdetails,AvatarColorPipe,InitialsPipe],
   templateUrl: './column.html',
   styleUrl: './column.scss',
 })
@@ -33,25 +35,6 @@ export class Column {
   types = ['Task', 'Bug', 'Feature'];
   priorities = ['Lowest', 'Low', 'Medium', 'High', 'Highest'];
 
-
-   private avatarColors = [
-    '#0052CC', '#0747A6', '#0065FF', '#2684FF', 
-    '#00875A', '#36B37E', '#FFAB00', '#FF5630', 
-    '#6554C0', '#5243AA', '#FF8B00', '#00B8D9'
-  ];
-
-  // Pass the ID (string or number) to guarantee uniqueness
-  getAvatarColor(userId: string | number): string {
-    const idString = userId.toString();
-    let hash = 0;
-    
-    for (let i = 0; i < idString.length; i++) {
-      hash = idString.charCodeAt(i) + ((hash << 5) - hash);
-    }
-
-    const index = Math.abs(hash) % this.avatarColors.length;
-    return this.avatarColors[index];
-  }
 
   constructor(private overlay : Overlay,private injector: Injector ,private workitemService: workitemservice,private columnService: ColumnService){
     this.workitemService.itemPatch$.subscribe(patch=>{

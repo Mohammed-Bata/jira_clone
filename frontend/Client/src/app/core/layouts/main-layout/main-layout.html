@@ -5,7 +5,7 @@
     
     <div class="body">
         
-        <app-sidebar [class.closed]="uiservice.sidebarOpen()"></app-sidebar> 
+        <app-sidebar [class.closed]="!uiservice.sidebarOpen()"></app-sidebar> 
        
         <div class="project">
             <router-outlet></router-outlet>

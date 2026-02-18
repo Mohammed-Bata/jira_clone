@@ -18,6 +18,7 @@ namespace Infrastructure
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<INotificationService, NotificationService>();
 
             // Map both interfaces to the same implementation
             services.AddScoped<IAppDbContext>(sp =>

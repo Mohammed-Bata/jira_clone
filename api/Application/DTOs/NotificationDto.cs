@@ -8,6 +8,7 @@ namespace Application.DTOs
     {
         public int Id { get; set; }
         public string Message { get; set; }
+        public string ActorId { get; set; }
         public string ActorName { get; set; }
         public DateTimeOffset CreatedAt { get; set; }
         public bool IsRead { get; set; }

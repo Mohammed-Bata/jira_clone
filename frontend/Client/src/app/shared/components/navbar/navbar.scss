@@ -77,6 +77,48 @@ nav{
     align-items: center;
     justify-content: center;
     color:var(--gray-text);
+    position: relative;
+    margin-right: 6px;
+}
+
+.count {
+    position: absolute;
+    right:-2px;
+    width:20px;
+    height:20px;
+    background-color:#FF8F73;
+    border-radius: 4px;
+    top:-2px;
+    color:var(--primary-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notification {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.actor{
+    width:40px;
+    height:40px;
+    border-radius: 50%;
+    color:var(--primary-bgcolor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.since{
+    margin-left: 4px;
+    color:var(--gray-text);
+}
+
+.message {
+    color:var(--primary-text);
+    font-weight: 500;
 }
 
 .notification-btn:hover{
@@ -85,7 +127,7 @@ nav{
 
 .notification-btn.clicked{
     color:var(--primary-color);
-    background-color: #E9F2FE;
+    background-color: var(--bg-day);
     transition: background .1s ease-out;
     border-radius: 3px;
     border:1px solid var(--primary-color);
@@ -143,7 +185,7 @@ nav{
     width:24px;
     height:24px;
     border-radius: 50%;
-    background-color:  var(--primary-color);
+    // background-color:  var(--primary-color);
     color:var(--primary-bgcolor);
     font-size: 10px;
     font-weight: bold;
@@ -193,7 +235,7 @@ nav{
     width:64px;
     height:64px;
     border-radius: 50%;
-    background-color: var(--primary-color);
+    //background-color: var(--primary-color);
     color:var(--primary-bgcolor);
     font-size: 24px;
     font-weight: 400;
@@ -273,4 +315,20 @@ nav{
 .theme.selected{
     background-color: #E9F2FE;
     color:var(--primary-color);
+}
+
+.mark{
+    width:fit-content;
+    margin-left: auto;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color:var(--primary-text);
+}
+
+.mark-icon{
+    width:20px;
+    height:20px;
+    margin-right: 8px;
 }

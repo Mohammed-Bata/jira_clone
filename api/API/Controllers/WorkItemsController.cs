@@ -5,6 +5,7 @@ using Application.WorkItems.Commands.ReorderWorkItem;
 using Application.WorkItems.Commands.UpdateWorkItem;
 using Application.WorkItems.Queries.GetWorkItem;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,6 +14,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class WorkItemsController : ControllerBase
     {
         private readonly IMediator _mediator;
@@ -60,8 +62,9 @@ namespace API.Controllers
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userName = User.FindFirstValue(ClaimTypes.Name);
 
-            var command = new CreateWorkItemCommand(dto.Title,dto.Description,dto.ProjectColumnId,dto.AssignedToUserId,userId,dto.Priority,dto.DueDate,dto.Type);
+            var command = new CreateWorkItemCommand(userName,dto.Title,dto.Description,dto.ProjectColumnId,dto.AssignedToUserId,dto.AssignedToUserName,userId,dto.Priority,dto.DueDate,dto.Type);
             var result = await _mediator.Send(command);
             return result;
 

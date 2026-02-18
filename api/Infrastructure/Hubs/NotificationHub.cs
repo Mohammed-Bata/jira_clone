@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Domain;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,11 @@ namespace Infrastructure.Hubs
             await base.OnConnectedAsync();
         }
 
+        public async Task JoinProject(string projectId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, $"Project_{projectId}");
+        }
+
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             var userId = Context.UserIdentifier;
@@ -24,6 +30,11 @@ namespace Infrastructure.Hubs
             Console.WriteLine($"❌ User {userId} disconnected from NotificationHub");
 
             await base.OnDisconnectedAsync(exception);
+        }
+
+        public async Task LeaveProject(string projectId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"Project_{projectId}");
         }
     }
 }

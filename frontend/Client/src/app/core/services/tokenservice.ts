@@ -16,15 +16,17 @@ interface JwtPayload {
 
 export class TokenService{
     private accessToken:string | null = null;
-    private _user = signal<{name:string, email:string} | null>(null);
+    private _user = signal<{id:string,name:string, email:string} | null>(null);
     user = this._user.asReadonly();
     
     setToken(accesstoken:string){
         this.accessToken = accesstoken;
         this._user.set({
+            id:this.getUserId(),
             name: this.getUserName(),
             email: this.getUserEmail()!
         });
+        localStorage.setItem('wasLoggedIn', 'true');
     }
 
     getToken(){
@@ -34,6 +36,7 @@ export class TokenService{
     clearToken() {
     this.accessToken = null;
     this._user.set(null);
+    localStorage.removeItem('wasLoggedIn');
     }
 
     getUserName(): string | any {

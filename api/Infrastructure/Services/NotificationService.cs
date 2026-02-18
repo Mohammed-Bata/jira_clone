@@ -12,16 +12,20 @@ namespace Infrastructure.Services
     public class NotificationService : INotificationService
     {
         private readonly IHubContext<NotificationHub> _hubContext;
-        private readonly AppDbContext _context;
-
-        public NotificationService(AppDbContext context)
+       
+        public NotificationService(IHubContext<NotificationHub> hubContext)
         {
-            _context = context;
+            _hubContext = hubContext;
         }
 
         public async Task SendToUser(string UserId, NotificationDto notification)
         {
             await _hubContext.Clients.User(UserId).SendAsync("ReceiveNotification", notification); 
+        }
+
+        public async Task SendToProject(string ProjectId, NotificationDto notification)
+        {
+            await _hubContext.Clients.Group($"Project_{ProjectId}").SendAsync("ReceiveNotification", notification);
         }
     }
 }

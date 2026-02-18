@@ -16,3 +16,9 @@ export interface ReorderColumnDto{
 export interface ReorderResultDto{
     Order:number;
 }
+
+export interface deleteColumnDto{
+    columnId:number,
+    targetColumnId:number,
+    workitemIds:number[]
+}

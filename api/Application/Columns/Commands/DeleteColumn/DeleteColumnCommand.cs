@@ -5,6 +5,6 @@ using System.Text;
 
 namespace Application.Columns.Commands.DeleteColumn
 {
-    public record DeleteColumnCommand(int ColumnId) : IRequest;
+    public record DeleteColumnCommand(int ColumnId,int? TargetColumnId,List<int>?WorkItemIds) : IRequest;
    
 }

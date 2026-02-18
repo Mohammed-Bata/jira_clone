@@ -35,7 +35,7 @@ export class Sidebar implements OnInit {
     this.projectservice.getProjects().subscribe({
       next:dtos =>{
         this.loading.set(false);
-        console.log(dtos);
+        
       },
       error: () => this.loading.set(false)
     })

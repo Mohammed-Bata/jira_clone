@@ -107,36 +107,6 @@ namespace Infrastructure.Services
             return await _userManager.FindByEmailAsync(email) == null;
         }
 
-        //public async Task<User?> FindByProviderAsync(string provider, string providerId)
-        //{
-        //    var userLoginInfo = new UserLoginInfo(provider, providerId, provider);
-        //    var applicationUser = await _userManager.FindByLoginAsync(userLoginInfo.LoginProvider, userLoginInfo.ProviderKey);
-        //    if (applicationUser == null)
-        //    {
-        //        return null;
-        //    }
-        //    return new User
-        //    {
-        //        Id = applicationUser.Id,
-        //        Name = applicationUser.Name,
-        //        Email = applicationUser.Email
-        //    };
-
-        //}
-
-        //public async Task<List<string>> GetProviders(string userId)
-        //{
-        //    var user = await _userManager.FindByIdAsync(userId);
-
-        //    if (user == null)
-        //        throw new Exception("User not found");
-
-        //    var logins = await _userManager.GetLoginsAsync(user);
-
-        //    return logins
-        //        .Select(l => l.LoginProvider)
-        //        .ToList();
-        //}
 
        public async Task<User?> CreateOrUpdateUserWithProviderAsync(string email, string name, string provider, string providerId,string picture)
         {

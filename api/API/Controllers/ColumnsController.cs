@@ -3,11 +3,13 @@ using Application.Columns.Commands.DeleteColumn;
 using Application.Columns.Commands.ReorderColumn;
 using Application.DTOs;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ColumnsController : ControllerBase
@@ -20,10 +22,10 @@ namespace API.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteColumn(int id)
+        [HttpDelete]
+        public async Task<ActionResult> DeleteColumn(DeleteColumnDto dto)
         {
-            var command = new DeleteColumnCommand(id);
+            var command = new DeleteColumnCommand(dto.ColumnId,dto.TargetColumnId,dto.WorkItemIds);
 
             await _mediator.Send(command);
 

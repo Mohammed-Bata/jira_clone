@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Behaviours;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,8 @@ namespace Application
             // MediatR
             services.AddMediatR(cfg => {
                 cfg.RegisterServicesFromAssembly(assembly);
-            
+                cfg.AddOpenBehavior(typeof(ValidationBehaviour<,>));
+
             });
 
             // In your application layer DI setup (e.g., AddApplication method)

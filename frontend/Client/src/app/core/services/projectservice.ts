@@ -4,6 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
 import { CreateProjectDto, ProjectDto, GetProjectsDto } from "../models/Project";
 import { catchError, Observable, tap, throwError } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
 
 
 
@@ -26,7 +27,7 @@ export class ProjectService{
 
     private readonly apiUrl = environment.apiUrl;
 
-    constructor(private http:HttpClient){
+    constructor(private http:HttpClient,private router: Router){
 
     }
 
@@ -50,7 +51,14 @@ export class ProjectService{
     getProjects():Observable<GetProjectsDto[]|any>{
       return this.http.get<GetProjectsDto[]>(`${this.apiUrl}${API_ENDPOINTS.PROJECT.GETALL}`)
       .pipe(
-        tap((response)=>{this._projects.set(response); console.log(response);}), 
+        tap((response)=>{
+          this._projects.set(response);
+          if(this.projects().length > 0){
+            this.getProject(this.projects()[0]?.id!).subscribe({
+              next: () =>this.router.navigate(['/project/',this.projects()[0]?.id])
+            });
+          }
+          }), 
         catchError((error)=>this.handleError(error))
       );
     }

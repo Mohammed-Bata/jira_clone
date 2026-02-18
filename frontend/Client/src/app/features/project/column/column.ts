@@ -10,6 +10,7 @@ import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { Workitemdetails } from '../workitemdetails/workitemdetails';
 import { AvatarColorPipe } from '../../../shared/pipes/avatar-color-pipe';
 import { InitialsPipe } from '../../../shared/pipes/initials-pipe';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 export const WORK_ITEM_ID = new InjectionToken<number>('WORK_ITEM_ID');
 export const PROJECT_ID = new InjectionToken<number>('PROJECT_ID');
@@ -36,7 +37,7 @@ export class Column {
   priorities = ['Lowest', 'Low', 'Medium', 'High', 'Highest'];
 
 
-  constructor(private overlay : Overlay,private injector: Injector ,private workitemService: workitemservice,private columnService: ColumnService){
+  constructor(private overlay : Overlay,private injector: Injector ,private workitemService: workitemservice,private columnService: ColumnService,private breakpointObserver: BreakpointObserver){
     this.workitemService.itemPatch$.subscribe(patch=>{
       this.applyPatchToLocalBoard(patch);
     })
@@ -57,12 +58,21 @@ export class Column {
   
 
   openWorkItemDetails(itemId:number){
+    const isMobile =  window.innerWidth < 600;
      const config = new OverlayConfig({
       positionStrategy : this.overlay.position().global().centerHorizontally().centerVertically(),
-      width:'60%',
-      height:'60%',
-      hasBackdrop: true
+      width: isMobile ? '100vw':'80%',
+      height: isMobile ? '100vh':'80%',
+      hasBackdrop: true,
     });
+
+    this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
+    if (result.matches) {
+      overlayRef.updateSize({ width: '100vw', height: '100vh' });
+    } else {
+      overlayRef.updateSize({ width: '80%', height: '80%' });
+    }
+  });
 
     const overlayRef = this.overlay.create(config);
 

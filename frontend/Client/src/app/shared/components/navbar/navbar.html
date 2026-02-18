@@ -34,7 +34,7 @@
                 <div class="menu">
                     <div class="top">
                         <div class="address">Notifications</div>
-                        <div>only show unread</div>
+                        <!-- <div class="only-unread">only show unread</div> -->
                     </div>
                   
                     @if(notificationservice.notifications$ | async; as list){
@@ -47,7 +47,7 @@
                                         } @else {
                                             <span>--</span> }
                                     </div>
-                                    <div class="message">{{n.message}}</div>
+                                    <div class="message">{{n.actorName}} {{n.message}}</div>
                                     <div class="since">{{n.createdAt | timeago}}</div>
                                 </div>
                             }@empty{

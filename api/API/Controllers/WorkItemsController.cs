@@ -12,9 +12,9 @@ using System.Security.Claims;
 
 namespace API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class WorkItemsController : ControllerBase
     {
         private readonly IMediator _mediator;

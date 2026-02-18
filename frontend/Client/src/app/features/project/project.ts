@@ -15,6 +15,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { icons } from '../../shared/icons/icons';
 import { workitemservice } from '../../core/services/workitemservice';
 import { NotificationsService } from '../../core/services/notificationsservice';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-project',
@@ -29,7 +30,7 @@ export class Project implements OnInit, OnDestroy
   @ViewChild(CdkPortal) portal!: CdkPortal;
   create : boolean = false;
 
-  constructor(private route:ActivatedRoute,private projectservice:ProjectService,private columnService:ColumnService,private overlay : Overlay, private notificationservice:NotificationsService,private destroyRef: DestroyRef){
+  constructor(private route:ActivatedRoute,private projectservice:ProjectService,private columnService:ColumnService,private overlay : Overlay, private notificationservice:NotificationsService,private destroyRef: DestroyRef,private breakpointObserver: BreakpointObserver){
     this.project = this.projectservice.project;
     this.loading = this.projectservice.loading;
 
@@ -75,12 +76,23 @@ export class Project implements OnInit, OnDestroy
   }
 
   openModel(){
+    const isMobile =  window.innerWidth < 600;
     const config = new OverlayConfig({
-      positionStrategy : this.overlay.position().global().centerHorizontally().centerVertically(),
-       width:'30%',
-       height:'80%',
+      positionStrategy : this.overlay.position().global().centerHorizontally(),
+       width:isMobile ? '100vw':'50%',
+       height:isMobile ? '50vh':'50%',
       hasBackdrop: true
     });
+
+    this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
+    if (result.matches) {
+      overlayRef.updateSize({ width: '100vw', height: '50vh' });
+    } else {
+      overlayRef.updateSize({ width: '50%', height: '50%' });
+    }
+  });
+
+
 
     const overlayRef = this.overlay.create(config);
     overlayRef.attach(this.portal);

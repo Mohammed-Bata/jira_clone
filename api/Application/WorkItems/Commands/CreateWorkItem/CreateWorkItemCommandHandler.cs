@@ -42,31 +42,33 @@ namespace Application.WorkItems.Commands.CreateWorkItem
 
             _context.WorkItems.Add(workItem);
 
-
-            var notification = new Notification
+            if (request.AssignedToUserId != null)
             {
-                UserId = request.AssignedToUserId,
-                Message = "Assigned Workitem To You",
-                ActorId = request.AuthorUserId,
-            };
+                var notification = new Notification
+                {
+                    UserId = request.AssignedToUserId,
+                    Message = "Assigned Workitem To You",
+                    ActorId = request.AuthorUserId,
+                };
 
-            _context.Notifications.Add(notification);
+                _context.Notifications.Add(notification);
+
+                var notificationDto = new NotificationDto
+                {
+                    Id = notification.Id,
+                    Message = notification.Message,
+                    ActorId = notification.ActorId,
+                    ActorName = request.AuthorName,
+                    CreatedAt = notification.CreatedAt,
+                    IsRead = notification.IsRead,
+                };
+
+                await _notificationService.SendToUser(request.AssignedToUserId, notificationDto);
+            }
 
 
             await _context.SaveChangesAsync(cancellationToken);
 
-
-            var notificationDto = new NotificationDto
-            {
-                Id = notification.Id,
-                Message = notification.Message,
-                ActorId = notification.ActorId,
-                ActorName = request.AuthorName,
-                CreatedAt = notification.CreatedAt,
-                IsRead = notification.IsRead,
-            };
-
-            await _notificationService.SendToUser(request.AssignedToUserId,notificationDto);
 
             var result = new CreateWorkItemResult
             (

@@ -31,6 +31,35 @@ export class ProjectService{
 
     }
 
+    updateColumn(deletedId : number,targetId : number){
+     this._project.update(current => {
+      if (!current) return null;
+
+      const deletedCol = current.columns.find(c => c.id === deletedId);
+      const movedItems = deletedCol?.workItems || [];
+
+      console.log("Deleted Column found:", deletedCol);
+    console.log("Moving Items count:", deletedCol?.workItems.length);
+
+      // 2. Map the columns
+      const updatedColumns = current.columns
+        .filter(col => col.id !== deletedId) // Remove the deleted one
+        .map(col => {
+          if (col.id === targetId) {
+            // Push moved items into the target column's local array
+            console.log("Target column found! Merging items into:", col.title);
+            return { 
+              ...col, 
+              workItems: [...col.workItems, ...movedItems] 
+            };
+          }
+          return col;
+        });
+
+      return { ...current, columns: updatedColumns };
+      });
+  }
+
 
 
     getProject(id:number):Observable<ProjectDto | any>{

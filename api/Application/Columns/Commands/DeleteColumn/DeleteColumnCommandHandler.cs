@@ -23,7 +23,7 @@ namespace Application.Columns.Commands.DeleteColumn
             .Where(w => w.ProjectColumnId == request.TargetColumnId)
             .MaxAsync(w => (double?)w.Order, cancellationToken) ?? 0;
 
-            if (request.WorkItemIds.Any())
+            if (request.WorkItemIds!= null && request.WorkItemIds.Any())
             {
                 await _context.WorkItems
                     .Where(w => request.WorkItemIds.Contains(w.Id))

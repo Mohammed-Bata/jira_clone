@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment.development";
 import { HttpClient } from "@angular/common/http";
-import { CreateColumnDto, ReorderColumnDto, ReorderResultDto} from "../models/Column";
+import { CreateColumnDto, deleteColumnDto, ReorderColumnDto, ReorderResultDto} from "../models/Column";
 import { Observable, tap } from "rxjs";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
 import { ProjectColumnDto } from "../models/Project";
@@ -18,12 +18,16 @@ export class ColumnService {
 
     }
 
-    deleteColumn(id:number):Observable<void|any>{
-      return this.http.delete<void>(`${this.apiUrl}${API_ENDPOINTS.Column.DELETE}/${id}`)
+    deleteColumn(deleteDto:deleteColumnDto):Observable<void|any>{
+      return this.http.delete<void>(`${this.apiUrl}${API_ENDPOINTS.Column.DELETE}`,{
+        body: deleteDto
+      })
       .pipe(
         tap((response)=>console.log(response))
       );
     }
+
+   
 
     createColumn(dto:CreateColumnDto):Observable<ProjectColumnDto|any>{
         return this.http.post<ProjectColumnDto>(`${this.apiUrl}${API_ENDPOINTS.Column.CREATE}`,dto)

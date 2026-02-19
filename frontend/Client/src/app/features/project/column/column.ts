@@ -11,14 +11,21 @@ import { Workitemdetails } from '../workitemdetails/workitemdetails';
 import { AvatarColorPipe } from '../../../shared/pipes/avatar-color-pipe';
 import { InitialsPipe } from '../../../shared/pipes/initials-pipe';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { DeleteColumn } from '../delete-column/delete-column';
+import { deleteColumnDto } from '../../../core/models/Column';
+import { Subject } from 'rxjs';
 
 export const WORK_ITEM_ID = new InjectionToken<number>('WORK_ITEM_ID');
 export const PROJECT_ID = new InjectionToken<number>('PROJECT_ID');
+export const Column_Title = new InjectionToken<string>('Column_Title');
+export const Column_Id = new InjectionToken<number>('Column_Id');
+export const Column_WorkItems_Ids = new InjectionToken<number[]>('Column_WorkItems_Ids');
+export const DELETE_NOTIFIER = new InjectionToken<Subject<number>>('DELETE_NOTIFIER');
 
 
 @Component({
   selector: 'app-column',
-  imports: [Workitem,CdkDrag,CdkDropList,DragDropModule,PortalModule,Workitemdetails,AvatarColorPipe,InitialsPipe],
+  imports: [Workitem,CdkDrag,CdkDropList,DragDropModule,PortalModule,Workitemdetails,AvatarColorPipe,InitialsPipe,DeleteColumn],
   templateUrl: './column.html',
   styleUrl: './column.scss',
 })
@@ -115,12 +122,65 @@ formatDate(dateString: string): string {
   }
 
   deleteColumn(columnId:number){
-    this.columnService.deleteColumn(columnId).subscribe({
+    const isMobile =  window.innerWidth < 600;
+    if(this.column.workItems.length > 0){
+      const config = new OverlayConfig({
+      positionStrategy : this.overlay.position().global().centerHorizontally(),
+      width: isMobile ? '100vw' : '70%',
+      height: isMobile ? '50vh' : '50%',
+      hasBackdrop: true,
+    });
+
+    this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
+    if (result.matches) {
+      overlayRef.updateSize({ width: '100vw', height: '50vh' });
+    } else {
+      overlayRef.updateSize({ width: '70%', height: '50%' });
+    }
+    });
+
+    const overlayRef = this.overlay.create(config);
+
+    const deleteNotifier$ = new Subject<number>();
+
+    // 2. Listen for the success signal
+    deleteNotifier$.subscribe(() => {
+     this.columnDeleted.emit(columnId);
+
+      overlayRef.detach(); // Close the modal
+    });
+
+
+    const customInjector = Injector.create({
+    parent: this.injector,
+    providers: [
+      { provide: Column_Title, useValue: this.column.title },
+      {provide: Column_Id, useValue: this.column.id},
+      {provide: Column_WorkItems_Ids, useValue:this.column.workItems.map(item =>item.id)},
+      { provide: DELETE_NOTIFIER, useValue: deleteNotifier$ },
+      { provide: OverlayRef, useValue: overlayRef }
+    ]
+    
+    });
+    const componentPortal = new ComponentPortal(DeleteColumn, null, customInjector);
+    overlayRef.attach(componentPortal);
+
+    //overlayRef.attach(this.portal);
+    overlayRef.backdropClick().subscribe(()=> overlayRef.detach());
+    }else{
+      const dto : deleteColumnDto = {
+        columnId:columnId,
+        targetColumnId:null,
+        workitemIds:null
+      }
+
+    this.columnService.deleteColumn(dto).subscribe({
       next:()=>{
         this.columnDeleted.emit(columnId);
       },
       error:(error)=>console.log(error)
     });
+  }
   }
 
   deleteWorkItem(id:number){

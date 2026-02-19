@@ -5,7 +5,8 @@ export interface CreateProjectDto{
 
 export interface GetProjectsDto{
     id:number |null,
-    name:string |null
+    name:string |null,
+    ownerId:string | null
 }
 
 export interface WorkItemPatchEvent{
@@ -48,5 +49,6 @@ export interface ProjectColumnDto {
 export interface ProjectDto {
   id: number;
   name: string;
+  ownerId:string;
   columns: ProjectColumnDto[];
 }

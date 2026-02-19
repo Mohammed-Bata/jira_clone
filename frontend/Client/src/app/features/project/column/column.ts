@@ -14,6 +14,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { DeleteColumn } from '../delete-column/delete-column';
 import { deleteColumnDto } from '../../../core/models/Column';
 import { Subject } from 'rxjs';
+import { TokenService } from '../../../core/services/tokenservice';
 
 export const WORK_ITEM_ID = new InjectionToken<number>('WORK_ITEM_ID');
 export const PROJECT_ID = new InjectionToken<number>('PROJECT_ID');
@@ -34,6 +35,7 @@ export class Column {
   private eRef = inject(ElementRef);
   @Input() column! :ProjectColumnDto;
   @Input() projectId!:number;
+  @Input() ownerId!:string;
   @Input() connectedTo: string[] = [];
   @Output() columnDeleted = new EventEmitter<number>();
   create : boolean = false;
@@ -45,10 +47,14 @@ export class Column {
   priorities = ['Lowest', 'Low', 'Medium', 'High', 'Highest'];
 
 
-  constructor(private overlay : Overlay,private injector: Injector ,private workitemService: workitemservice,private columnService: ColumnService,private breakpointObserver: BreakpointObserver){
+  constructor(private overlay : Overlay,private injector: Injector ,private workitemService: workitemservice,private columnService: ColumnService,private tokenservice:TokenService,private breakpointObserver: BreakpointObserver){
     this.workitemService.itemPatch$.subscribe(patch=>{
       this.applyPatchToLocalBoard(patch);
     })
+  }
+
+  showDelete(){
+    return this.ownerId === this.tokenservice.getUserId();
   }
 
   @HostListener('document:keydown.escape')

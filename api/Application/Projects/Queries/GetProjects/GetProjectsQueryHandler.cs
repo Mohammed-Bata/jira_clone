@@ -20,7 +20,7 @@ namespace Application.Projects.Queries.GetProjects
         public async Task<List<ProjectsDto>> Handle (GetProjectsQuery request, CancellationToken cancellationToken)
         {
             using var connection = _sqlConnectionFactory.CreateConnection();
-            var sql = "SELECT p.Id, p.Name FROM Projects p JOIN ProjectMembers pm ON p.Id = pm.ProjectId WHERE pm.UserId = @UserId";
+            var sql = "SELECT p.Id, p.Name,p.OwnerId FROM Projects p JOIN ProjectMembers pm ON p.Id = pm.ProjectId WHERE pm.UserId = @UserId";
             var projects = await connection.QueryAsync<ProjectsDto>(sql, new { UserId = request.UserId });
             return projects.ToList();
         }

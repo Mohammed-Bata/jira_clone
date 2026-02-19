@@ -8,6 +8,7 @@ import { GetProjectsDto, ProjectDto } from '../../../core/models/Project';
 import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { icons } from '../../icons/icons';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { TokenService } from '../../../core/services/tokenservice';
 
 @Component({
   selector: 'app-sidebar',
@@ -27,7 +28,7 @@ export class Sidebar implements OnInit {
   openMenuProjectId: number | null = null;
 
 
-  constructor(private overlay : Overlay,private projectservice:ProjectService,private router:Router,private breakpointObserver: BreakpointObserver){
+  constructor(private overlay : Overlay,private projectservice:ProjectService,private tokenservice:TokenService,private router:Router,private breakpointObserver: BreakpointObserver){
     this.selectedProject = this.projectservice.project;
     this.projects = this.projectservice.projects;
   }
@@ -39,6 +40,10 @@ export class Sidebar implements OnInit {
       },
       error: () => this.loading.set(false)
     })
+  }
+
+  showDelete(ownerid:string){
+    return this.tokenservice.getUserId() === ownerid;
   }
 
   openModel(event:MouseEvent){

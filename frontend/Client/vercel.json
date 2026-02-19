@@ -1,5 +1,0 @@
-{
-  "buildCommand": "cd frontend/client && npm run build",
-  "installCommand": "cd frontend/client && npm install",
-  "outputDirectory": "frontend/client/dist/client/browser"
-}

@@ -1,8 +1,0 @@
-{
-  "version": 2,
-  "public": true,
-  "name": "jira-clone-frontend",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}

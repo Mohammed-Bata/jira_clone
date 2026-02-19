@@ -37,10 +37,10 @@ namespace Infrastructure.Configurations
                 .HasColumnType("date")
                .IsRequired(false);
 
-            builder.HasOne<ProjectColumn>()        
-           .WithMany()                      
-           .HasForeignKey(w => w.ProjectColumnId)
-           .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(w => w.Column)
+                 .WithMany(c => c.WorkItems)
+                 .HasForeignKey(w => w.ProjectColumnId)
+                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne<AppUser>()
                 .WithMany()

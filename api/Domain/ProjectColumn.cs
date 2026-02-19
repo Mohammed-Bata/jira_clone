@@ -11,5 +11,6 @@ namespace Domain
         public string Title { get; set; }
         public int ProjectId { get; set; }  
         public Project Project { get; set; }
+        public ICollection<WorkItem> WorkItems { get; set; }
     }
 }

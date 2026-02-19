@@ -14,7 +14,7 @@ namespace Application.Interfaces
         public DbSet<Invitation> Invitations { get; }
         public DbSet<ProjectMember> ProjectMembers { get;}
         public DbSet<Notification> Notifications { get; }
-      
+        
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

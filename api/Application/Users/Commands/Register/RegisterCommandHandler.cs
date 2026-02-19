@@ -17,16 +17,10 @@ namespace Application.Users.Commands.Register
         }
         public async Task<User> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
-            bool isUnique = await _authService.IsEmailUniqueAsync(request.Email);
-
-            if (!isUnique)
-            {
-                throw new Exception("email is exist");
-            }
+            
 
             var user = new User
             {
-                
                 Name = request.Name,
                 Email = request.Email,
             };

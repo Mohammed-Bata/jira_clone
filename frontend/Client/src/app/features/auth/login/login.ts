@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, MinLengthValidator, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../core/services/authservice';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { LoginRequest, RegisterRequest } from '../../../core/models/Auth';
+import { passwordLowerValidator } from '../../../core/validators/passwordLowerValidator';
+import { passwordSpecialValidator } from '../../../core/validators/passwordSpecialValidator';
+import { passwordUpperValidator } from '../../../core/validators/passwordUpperValidator';
 
 @Component({
   selector: 'app-login',
@@ -14,24 +17,30 @@ import { LoginRequest, RegisterRequest } from '../../../core/models/Auth';
 export class Login {
   Form: FormGroup;
   page = "Login";
+  errorMessage: string | null = null;
 
 
   constructor(private fb :FormBuilder,private authservice:AuthService,private route:ActivatedRoute,private router:Router){
     this.Form = this.fb.group({
       name:['',[Validators.minLength(3)]],
       email:['',[Validators.required,Validators.email]],
-      password:['',Validators.required]
+      password:['',[Validators.required]]
     })
   }
 
   togglePage(){
+    const passwordControl = this.Form.get('password');
     this.page = this.page === 'Login' ? 'Register':'Login';
 
     if (this.page === 'Login') {
       this.Form.removeControl('name');
+      passwordControl?.setValidators([Validators.required]);
     } else {
     this.Form.addControl('name', this.fb.control('', [Validators.required, Validators.minLength(3)]));
+    passwordControl?.setValidators([passwordLowerValidator,passwordSpecialValidator,passwordUpperValidator,Validators.minLength(8)]);
     }
+
+    passwordControl?.updateValueAndValidity();
   }
 
 
@@ -41,13 +50,10 @@ export class Login {
       return;
     }
 
-    console.log("bad");
-
     this.Form.markAsUntouched();
+    this.errorMessage = null;
 
     if(this.page === 'Login'){
-
-      console.log('startlogin');
       const loginRequest:LoginRequest = {
         email: this.Form.value.email,
         password: this.Form.value.password
@@ -55,10 +61,11 @@ export class Login {
 
       this.authservice.login(loginRequest).subscribe({
       next:(response)=>{
-        console.log('login success');
         this.router.navigate(['/']);
       },
-      error:(err)=>console.log(err.error)
+      error:(err)=>{
+        this.errorMessage = err.Message;
+      }
     })
 
     }else{
@@ -67,17 +74,16 @@ export class Login {
         email: this.Form.value.email,
         password: this.Form.value.password
       }
-
       this.authservice.register(registerRequest).subscribe({
         next:(response)=>{
-          console.log(response);
           this.page = 'Register';
         },
-        error:(err)=>console.log(err)
-      })
-    }
+        error:(err)=>{
+            this.errorMessage = err.Message;
+        }
+        });
 
-
+      }
   }
 
   loginWithGoogle(){

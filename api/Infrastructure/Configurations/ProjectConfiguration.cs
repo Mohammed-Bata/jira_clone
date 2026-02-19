@@ -26,6 +26,11 @@ namespace Infrastructure.Configurations
             builder.Property(p => p.CreatedAt)
                 .HasDefaultValueSql("sysdatetimeoffset()")
                 .IsRequired();
+
+            builder.HasMany(p => p.Columns)
+           .WithOne(c => c.Project) // Assumes ProjectColumn has a 'Project' property
+           .HasForeignKey(c => c.ProjectId)
+           .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

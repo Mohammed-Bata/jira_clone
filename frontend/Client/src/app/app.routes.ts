@@ -35,5 +35,7 @@ export const routes: Routes = [
     {
         path:'accept',
         component:AcceptInvite
-    }
+    },
+        { path: '**', redirectTo: 'notfound' }
+
 ];

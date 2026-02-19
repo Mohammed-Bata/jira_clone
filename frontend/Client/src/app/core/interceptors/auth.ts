@@ -25,10 +25,23 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
     return next(authRequest).pipe(
       catchError((error:HttpErrorResponse)=>{
+        let Message = 'An unexpected error occurred.';
         if(error.status === 401 && !req.url.includes('/Users/Refresh')){
+          Message = 'Invalid credentials or session expired.';
           return handle401Error(req, next, tokenService, authService);
         }
-        return throwError(()=>error);
+        else if(error.status === 400){
+          if (error.error?.errors) {
+          const firstKey = Object.keys(error.error.errors)[0];
+          Message = error.error.errors[firstKey][0];
+        } 
+        // CASE B: BadRequestException (Login) - Using the 'detail' field from ProblemDetails
+        else if (error.error?.detail) {
+          Message = error.error.detail;
+        }
+        }
+        const customError = { ...error, Message };
+        return throwError(() => customError);
       })
     );
 

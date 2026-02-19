@@ -13,6 +13,7 @@ namespace Domain
         public Priority Priority { get; set; } = Priority.Medium;
         public DateOnly? DueDate { get; set; }
         public ItemType Type { get; set; } = ItemType.Task;
+        public ProjectColumn Column { get; set; }
     }
 
     public enum ItemType

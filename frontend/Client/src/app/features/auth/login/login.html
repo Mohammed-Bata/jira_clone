@@ -8,7 +8,7 @@
                 </div>
 
                 <div class="instruction">
-                    Sign up to continue
+                    {{ page === 'Login' ? 'Login' : 'Sign Up' }} to continue
                 </div>
             </div>
             <div>
@@ -56,12 +56,29 @@
                              @if (Form.get('password')?.touched && Form.get('password')?.invalid) {
                                 <small class="error">
                                 @if (Form.get('password')?.errors?.['required']) {
-                                    <span>Name is required</span>
+                                    <span>Password is required</span>
+                                }
+                                @if (Form.get('password')?.errors?.['passwordLower']){
+                                    <span>Password must contain lowercase letter</span>
+                                }
+                                @if(Form.get('password')?.errors?.['passwordUpper']){
+                                    <span>Password must contain uppercase letter</span>
+                                }
+                                @if(Form.get('password')?.errors?.['passwordSpecial']){
+                                    <span>Password must contain special character</span>
+                                }
+                                @if(Form.get('password')?.errors?.['minlength']){
+                                    <span>Password must be atleast 8</span>
                                 }
                                 </small>
                             }
                         </div>
                     </div>
+                    @if (errorMessage) {
+                        <div class="server-error-box">
+                        <i class="icon-warning"></i> <span>{{ errorMessage }}</span>
+                        </div>
+                    }
                     <div class="two">
                         <button type="submit">{{ page === 'Login' ? 'Login' : 'Sign Up' }}</button>
                     </div>

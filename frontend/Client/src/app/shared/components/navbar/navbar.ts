@@ -1,4 +1,4 @@
-import { Component, Signal, signal } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, Signal, signal } from '@angular/core';
 import { AuthService } from '../../../core/services/authservice';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
@@ -18,7 +18,7 @@ import { InitialsPipe } from '../../pipes/initials-pipe';
   styleUrl: './navbar.scss',
 })
 export class Navbar {
-  
+  private eRef = inject(ElementRef);
   isAuthenticated$!: Observable<boolean | null>;
   isClicked = false;
   isAvatarClicked = false;
@@ -28,8 +28,18 @@ export class Navbar {
   constructor(private router:Router,private authservice:AuthService,public notificationservice:NotificationsService,private tokenservice:TokenService,public uiservice:UIService){
     this.isAuthenticated$ = this.authservice.isAuthenticated$;
     this.user = this.tokenservice.user;
-    console.log(this.user());
   }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event: Event) {
+
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.isClicked = false;
+    this.isAvatarClicked = false;
+    this.openTheme = false;
+    }
+  }
+
 
   markAll(){
     this.notificationservice.markAllAsRead().subscribe({
@@ -45,6 +55,7 @@ export class Navbar {
 
   toggle(){
     this.isClicked = !this.isClicked;
+    this.isAvatarClicked = false;
 
     if(this.isClicked){
       this.notificationservice.loadNotifications();
@@ -53,6 +64,7 @@ export class Navbar {
 
   toggleAvatar(){
     this.isAvatarClicked = !this.isAvatarClicked;
+    this.isClicked = false;
   }
 
   logout(){

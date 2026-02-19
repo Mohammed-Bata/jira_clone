@@ -1,4 +1,4 @@
-import { Component, EventEmitter, InjectionToken, Injector, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, inject, InjectionToken, Injector, Input, Output, ViewChild } from '@angular/core';
 import { ProjectColumnDto, WorkItemPatchEvent, WorkItemPreviewDto } from '../../../core/models/Project';
 import { Workitem } from '../workitem/workitem';
 import { workitemservice } from '../../../core/services/workitemservice';
@@ -31,6 +31,7 @@ export const DELETE_NOTIFIER = new InjectionToken<Subject<number>>('DELETE_NOTIF
 })
 
 export class Column {
+  private eRef = inject(ElementRef);
   @Input() column! :ProjectColumnDto;
   @Input() projectId!:number;
   @Input() connectedTo: string[] = [];
@@ -48,6 +49,38 @@ export class Column {
     this.workitemService.itemPatch$.subscribe(patch=>{
       this.applyPatchToLocalBoard(patch);
     })
+  }
+
+  @HostListener('document:keydown.escape')
+onEscapePressed() {
+  this.create = false;
+  this.openMenuColumnId = null;
+    this.openMenuWorkItemId = null;
+}
+
+   @HostListener('document:click', ['$event'])
+  clickout(event: Event) {
+
+   const target = event.target as HTMLElement;
+
+  // 1. Close WorkItem Menu if clicking outside the specific work-item area
+  // We check if the click was NOT inside an element with the class 'work-item'
+  if (!target.closest('.head')) {
+    this.openMenuWorkItemId = null;
+  }
+
+  // 2. Close Column Menu if clicking outside the column area
+  if (!target.closest('.header')) { // Adjust class name to your column menu trigger
+    this.openMenuColumnId = null;
+  }
+  
+  // 3. Keep your existing logic for the global component if needed
+  if (!this.eRef.nativeElement.contains(target)) {
+    // Hard reset everything if clicking completely outside the navbar/board
+    this.openMenuColumnId = null;
+    this.openMenuWorkItemId = null;
+    this.create = false;
+  }
   }
 
   applyPatchToLocalBoard(patch: WorkItemPatchEvent){

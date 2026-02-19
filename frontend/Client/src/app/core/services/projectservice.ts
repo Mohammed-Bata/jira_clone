@@ -3,7 +3,7 @@ import { environment } from "../../../environments/environment.development";
 import { HttpClient } from "@angular/common/http";
 import { API_ENDPOINTS } from "../constants/api-endpoints";
 import { CreateProjectDto, ProjectDto, GetProjectsDto } from "../models/Project";
-import { catchError, Observable, tap, throwError } from "rxjs";
+import { catchError, EMPTY, empty, EmptyError, Observable, tap, throwError } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 
 
@@ -38,8 +38,6 @@ export class ProjectService{
       const deletedCol = current.columns.find(c => c.id === deletedId);
       const movedItems = deletedCol?.workItems || [];
 
-      console.log("Deleted Column found:", deletedCol);
-    console.log("Moving Items count:", deletedCol?.workItems.length);
 
       // 2. Map the columns
       const updatedColumns = current.columns
@@ -47,7 +45,7 @@ export class ProjectService{
         .map(col => {
           if (col.id === targetId) {
             // Push moved items into the target column's local array
-            console.log("Target column found! Merging items into:", col.title);
+    
             return { 
               ...col, 
               workItems: [...col.workItems, ...movedItems] 
@@ -67,12 +65,12 @@ export class ProjectService{
       .pipe(
         tap((response) => {
           this._project.set(response);
-          console.log(response);
           this._loading.set(false);
         }),
         catchError((error) => {
           this._loading.set(false);
-          return throwError(() => error);
+          this.router.navigate(['notfound'], { replaceUrl: true });
+          return EMPTY;
         })
       );
     }
@@ -82,7 +80,8 @@ export class ProjectService{
       .pipe(
         tap((response)=>{
           this._projects.set(response);
-          if(this.projects().length > 0){
+          const isNotFound = this.router.url.includes('notfound');
+          if(this.projects().length > 0 && !isNotFound){
             this.getProject(this.projects()[0]?.id!).subscribe({
               next: () =>this.router.navigate(['/project/',this.projects()[0]?.id])
             });
@@ -97,7 +96,6 @@ export class ProjectService{
       .pipe(
       tap((response) => {
         this._projects.update(projects => [...projects, response]);
-        console.log(response);
       }),
       catchError((error) => this.handleError(error))
       );
@@ -106,9 +104,9 @@ export class ProjectService{
     deleteProject(id:number){
       return this.http.delete(`${this.apiUrl}${API_ENDPOINTS.PROJECT.DELETE}/${id}`)
       .pipe(
-        tap((response) =>{ console.log(response);
+        tap((response) =>{ 
           this._projects.update(projects => projects.filter(p => p.id !== id));
-          console.log(response);
+         
         }),
         catchError((error) => this.handleError(error))
       )

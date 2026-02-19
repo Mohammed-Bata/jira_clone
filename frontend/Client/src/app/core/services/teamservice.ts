@@ -21,7 +21,6 @@ export class TeamService{
     getTeamMembers(projectId:number):Observable<any>{
         return this.http.get(`${this.apiUrl}${API_ENDPOINTS.TeamMembers.GETALL}/${projectId}`)
         .pipe(
-            tap((response) => console.log(response)),
             catchError((error) => this.handleError(error))
         );
     }
@@ -29,7 +28,6 @@ export class TeamService{
     inviteMember(dto:InvitationDto):Observable<InvitationResponse|any>{
         return this.http.post<InvitationResponse>(`${this.apiUrl}${API_ENDPOINTS.TeamMembers.INVITE}`,dto)
         .pipe(
-            tap((response) => console.log(response)),
             catchError((error) => this.handleError(error))
         );
     }
@@ -37,7 +35,6 @@ export class TeamService{
     acceptInvite(dto:AcceptDto):Observable<InvitationResponse|any>{
         return this.http.post<InvitationResponse>(`${this.apiUrl}${API_ENDPOINTS.TeamMembers.ACCEPT}`,dto)
         .pipe(
-            tap((response)=>console.log(response)),
             catchError((error)=>this.handleError(error))
         )
     }

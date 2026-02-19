@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular
 import { ProjectService } from '../../../core/services/projectservice';
 import { TokenService } from '../../../core/services/tokenservice';
 import { CreateProjectDto } from '../../../core/models/Project';
+import { OverlayRef } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-create-project',
@@ -13,6 +14,7 @@ import { CreateProjectDto } from '../../../core/models/Project';
 export class CreateProject {
 
   createProjectForm:FormGroup;
+  private overlayRef?: OverlayRef;
 
   constructor(private fb:FormBuilder,private projectservice:ProjectService,private tokenservice:TokenService){
     this.createProjectForm = this.fb.group({
@@ -35,11 +37,12 @@ export class CreateProject {
 
 
     this.projectservice.createProject(dto).subscribe({
-      next:(value)=>console.log(value),
+      next:(value)=>this.overlayRef?.detach(),
       error:(err)=>console.log(err.message)
     });
 
     this.createProjectForm.markAsUntouched();
+
   }
 
 

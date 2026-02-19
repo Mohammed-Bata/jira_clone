@@ -7,6 +7,7 @@ import { ProjectService } from '../../../core/services/projectservice';
 import { GetProjectsDto, ProjectDto } from '../../../core/models/Project';
 import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import { icons } from '../../icons/icons';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-sidebar',
@@ -26,7 +27,7 @@ export class Sidebar implements OnInit {
   openMenuProjectId: number | null = null;
 
 
-  constructor(private overlay : Overlay,private projectservice:ProjectService,private router:Router){
+  constructor(private overlay : Overlay,private projectservice:ProjectService,private router:Router,private breakpointObserver: BreakpointObserver){
     this.selectedProject = this.projectservice.project;
     this.projects = this.projectservice.projects;
   }
@@ -35,7 +36,6 @@ export class Sidebar implements OnInit {
     this.projectservice.getProjects().subscribe({
       next:dtos =>{
         this.loading.set(false);
-        
       },
       error: () => this.loading.set(false)
     })
@@ -43,12 +43,20 @@ export class Sidebar implements OnInit {
 
   openModel(event:MouseEvent){
     event.stopPropagation();
+    const isMobile =  window.innerWidth < 600;
     const config = new OverlayConfig({
       positionStrategy : this.overlay.position().global().centerHorizontally().centerVertically(),
-      width:'60%',
-      height:'60%',
+      width:isMobile ? '100vw':'60%',
+      height:isMobile ? '60vh':'50%',
       hasBackdrop: true
     });
+
+    this.breakpointObserver.observe(['(max-width: 600px)']).subscribe(result => {
+    if (result.matches) {
+      overlayRef.updateSize({ width: '100vw', height: '60vh' });
+    } else {
+      overlayRef.updateSize({ width: '60%', height: '50%' });
+    }});
 
     const overlayRef = this.overlay.create(config);
     overlayRef.attach(this.portal);

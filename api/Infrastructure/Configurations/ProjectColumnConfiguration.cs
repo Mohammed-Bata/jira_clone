@@ -25,6 +25,13 @@ namespace Infrastructure.Configurations
                 .WithMany(p=>p.Columns)
                 .HasForeignKey(b => b.ProjectId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(c => c.WorkItems)
+           .WithOne(w => w.Column)
+           .HasForeignKey(w => w.ProjectColumnId)
+           .OnDelete(DeleteBehavior.Cascade);
+
+
         }
     }
 }

@@ -39,9 +39,7 @@ export class NotificationsService{
     }
 
     loadNotifications(): void{
-        console.log('inthemethod');
         if(this.notificationsSubject.value.length > 0){
-            console.log(this.unreadCountSubject.value);
             return;
         }
         console.log('getting');
@@ -49,7 +47,6 @@ export class NotificationsService{
             Status:'all'
         },withCredentials:true}).subscribe({
             next:(notifications)=>{
-                console.log(notifications);
                 this.notificationsSubject.next(notifications);
             }
         })
